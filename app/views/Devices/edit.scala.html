@@ -1,10 +1,24 @@
-@(myForm: Form[Device])
+@(myForm: Form[Device], deviceRoles:List[String])
+
+@if(myForm.hasGlobalErrors) {
+    <ul>
+    @myForm.globalErrors.foreach { error =>
+        <li>error.message</li>
+    }
+    </ul>
+}
+
+@import helper._
 
 @main("Edit a device") {
 
   @helper.form(action = routes.Devices.update()) {
     @helper.inputText(myForm("name"))
     @helper.inputText(myForm("ipAddress"))
+
+    @helper.select(myForm("roles"), options(deviceRoles), 'multiple->"multiple")
+
+    <input type="hidden" value="@myForm("id")">
     <input type="submit" value="Submit">
   }
 
