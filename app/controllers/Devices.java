@@ -9,9 +9,9 @@ import play.mvc.Result;
 import java.util.ArrayList;
 import java.util.List;
 
-import views.html.devices.editView;
-import views.html.devices.indexView;
-import views.html.devices.rolesIndexView;
+import views.html.devicesViews.editView;
+import views.html.devicesViews.indexView;
+import views.html.devicesViews.rolesIndexView;
 
 /**
  * Created by Luuk on 07/01/15.
