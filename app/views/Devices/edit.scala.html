@@ -13,13 +13,13 @@
 @main("Edit a device") {
 
   @helper.form(action = routes.Devices.update()) {
-    @helper.inputText(myForm("name"))
-    @helper.inputText(myForm("ipAddress"))
+      @helper.inputText(myForm("name"))
+      @helper.inputText(myForm("ipAddress"))
 
-    @helper.select(myForm("roles"), options(deviceRoles), 'multiple->"multiple")
+      @helper.select(myForm("roles"), options(deviceRoles), 'multiple->"multiple")
 
-    <input type="hidden" value="@myForm("id")">
-    <input type="submit" value="Submit">
+      <input type="hidden" name="id" value="@myForm("id").value">
+      <input type="submit" value="Submit">
   }
 
   <a href="@routes.Devices.index()">Cancel</a>

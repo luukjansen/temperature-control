@@ -20,7 +20,7 @@ import java.util.Set;
 public class Device extends Model {
 
     @Id
-    @Constraints.Min(10)
+    @Constraints.Min(1)
     public Long id;
 
     @Constraints.Required
