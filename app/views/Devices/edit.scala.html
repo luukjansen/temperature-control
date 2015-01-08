@@ -1,0 +1,12 @@
+@(myForm: Form[Device])
+
+@main("Edit a device") {
+
+  @helper.form(action = routes.Devices.update()) {
+    @helper.inputText(myForm("name"))
+    @helper.inputText(myForm("ipAddress"))
+    <input type="submit" value="Submit">
+  }
+
+  <a href="@routes.Devices.index()">Cancel</a>
+}

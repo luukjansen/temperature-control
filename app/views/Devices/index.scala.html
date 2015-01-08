@@ -1,0 +1,16 @@
+@(devices: List[Device])
+
+@main("Devices") {
+  <table>
+  @for(device <- devices) {
+    <tr>
+    <td><a href="@routes.Devices.edit(device.id)">@device.name<a/></td>
+    <td>@device.ipAddress</td>
+    <td>@device.roles</td>
+    <td><a href="@routes.Devices.edit(device.id)">edit<a/> | <a href="@routes.Devices.delete(device.id)">delete</a></td>
+    </tr>
+  }
+  </table>
+
+  <a href="@routes.Devices.add()">Add</a>
+}
