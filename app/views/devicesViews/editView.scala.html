@@ -1,0 +1,46 @@
+@(myForm: Form[Device])
+
+    @if(myForm.hasGlobalErrors) {
+        <ul>
+        @myForm.globalErrors.foreach { error =>
+            <li>error.message</li>
+        }
+        </ul>
+    }
+
+
+    @main("Edit a device") {
+
+        @if(myForm("id").value == "" || myForm("id").value == null) {
+            <h2>Add the device</h2>
+        } else {
+            <h2>Update the device</h2>
+        }
+
+        @helper.form(action = routes.Devices.update()) {
+
+            @helper.inputText(
+                myForm("name"),
+                '_label -> "Device name"
+            )
+
+            @helper.inputText(
+                myForm("ipAddress"),
+                '_label -> "IP Address"
+            )
+
+            @helper.inputCheckboxGroup(
+                myForm("rolesIds"),
+                options = helper.options(models.DeviceRole.selectOptions()),
+                '_label -> "Roles of device"
+            )
+
+
+
+            <input type="hidden" name="id" value="@myForm("id").value">
+            <input type="submit" value="Submit">
+        }
+
+        <a href="@routes.Devices.index()">Cancel</a>
+    }
+

@@ -2,16 +2,16 @@ package controllers;
 
 import models.Device;
 import models.DeviceRole;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.collection.Seq;
-import scala.collection.convert.Wrappers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import views.html.devicesViews.editView;
+import views.html.devicesViews.indexView;
+import views.html.devicesViews.rolesIndexView;
 
 /**
  * Created by Luuk on 07/01/15.
@@ -20,12 +20,18 @@ public class Devices extends Controller {
 
     public static Result index() {
         List<Device> devices = Device.find.all();
-        return ok(views.html.Devices.index.render(devices));
+        return ok(indexView.render(devices));
     }
 
-    public static Result add () {
+    public static Result rolesIndex() {
+        List<DeviceRole> roles = DeviceRole.find.all();
+        return ok(rolesIndexView.render(roles));
+    }
+
+
+    public static Result add() {
         Form<Device> myForm = Form.form(Device.class);
-        return ok(views.html.Devices.add.render(myForm));
+        return ok(editView.render(myForm));
     }
 
     public static Result delete(Long id) {
@@ -34,39 +40,58 @@ public class Devices extends Controller {
         return redirect(routes.Devices.index());
     }
 
-    public static Result edit(Long id){
+    public static Result edit(Long id) {
         Device device = Device.find.byId(id);
         Form<Device> myForm = Form.form(Device.class);
+
+        // Rewrite IDs of roles to transient field, to all mark checkboxes as checked
+        for (DeviceRole role : device.roles) {
+            device.rolesIds.add(role.id);
+        }
+
         myForm = myForm.fill(device);
 
-        return ok(views.html.Devices.edit.render(myForm, listOfRoles()));
+        return ok(editView.render(myForm));
     }
 
-    public static Result save () {
-        //DynamicForm requestData = Form.form().bindFromRequest();
+    /**
+     * @return Result
+     * @deprecated Use update() for saving and updating...
+     */
+    @Deprecated
+    public static Result save() {
         Device device = Form.form(Device.class).bindFromRequest().get();
         device.save();
-        return redirect(routes.Devices.index());
+        return index();
     }
 
     public static Result update() {
-        Form<Device> deviceForm = Form.form(Device.class).bindFromRequest();
 
+        Form<Device> deviceForm = Form.form(Device.class).bindFromRequest();
         if (deviceForm.hasErrors()) {
-            return badRequest(views.html.Devices.edit.render(deviceForm, listOfRoles()));
+            return badRequest(editView.render(deviceForm));
         }
 
-        // Form is OK, has no errors, we can proceed
+        // Form is OK, has no errors we can proceed
+
         Device device = deviceForm.get();
-        device.update(device.id);
+
+        // Get checked checkboxes and add DeviceRoles by ID
+        device.roles = new ArrayList<>();
+        for (Long roleId : device.rolesIds) {
+            device.roles.add(DeviceRole.find.ref(roleId));
+        }
+
+        // Save or update?
+        if (device.id == null) {
+            device.save();
+        } else {
+            device.update(device.id);
+        }
+
+
+//        return ok(editView.render(deviceForm));
         return redirect(routes.Devices.index());
     }
 
-    private static List<String> listOfRoles(){
-        List<String> list = new ArrayList<String>();
-        for(DeviceRole role : DeviceRole.values()) {
-            list.add(role.toString());
-        }
-        return list;
-    }
 }

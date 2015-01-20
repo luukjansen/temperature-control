@@ -7,10 +7,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Luuk on 07/01/15.
@@ -20,7 +17,6 @@ import java.util.Set;
 public class Device extends Model {
 
     @Id
-    @Constraints.Min(1)
     public Long id;
 
     @Constraints.Required
@@ -29,15 +25,19 @@ public class Device extends Model {
     @Constraints.Required
     public String ipAddress;
 
-    @Constraints.Required
-    @ElementCollection(fetch = FetchType.EAGER)
-    public Set<DeviceRole> roles = new HashSet<DeviceRole>(Arrays.asList(DeviceRole.OTHER));
+    @ManyToMany
+    public List<DeviceRole> roles = new ArrayList<>();
+
+
+    @Transient
+    public List<Long> rolesIds = new ArrayList<>();
+
 
     @Version
     public Timestamp lastUpdate;
 
-    public static Finder<Long,Device> find = new Finder<Long,Device>(
-      Long.class, Device.class
+    public static Finder<Long, Device> find = new Finder<Long, Device>(
+            Long.class, Device.class
     );
 
     public List<ValidationError> validate() {
