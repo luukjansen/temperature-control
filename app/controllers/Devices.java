@@ -77,7 +77,7 @@ public class Devices extends Controller {
         Device device = deviceForm.get();
 
         // Get checked checkboxes and add DeviceRoles by ID
-        device.roles = new ArrayList<>();
+        device.roles = new ArrayList<DeviceRole>();
         for (Long roleId : device.rolesIds) {
             device.roles.add(DeviceRole.find.ref(roleId));
         }
