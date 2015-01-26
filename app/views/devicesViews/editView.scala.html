@@ -1,4 +1,4 @@
-@(myForm: Form[Device])
+@(myForm: Form[Device], device: Device)
 
     @if(myForm.hasGlobalErrors) {
         <ul>
@@ -29,13 +29,17 @@
                 '_label -> "IP Address"
             )
 
-            @helper.inputCheckboxGroup(
-                myForm("rolesIds"),
-                options = helper.options(models.DeviceRole.selectOptions()),
-                '_label -> "Roles of device"
+            @helper.inputText(
+                myForm("uniqueId"),
+                '_label -> "Unique ID"
             )
 
-
+            @for(sensor <- device.sensors) {
+              <div>
+              <td>@sensor.temp</td>
+              <td><a href="@routes.Sensors.edit(sensor.id)">edit<a/> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
+              </div>
+            }
 
             <input type="hidden" name="id" value="@myForm("id").value">
             <input type="submit" value="Submit">

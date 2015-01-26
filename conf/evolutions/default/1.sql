@@ -3,50 +3,102 @@
 
 # --- !Ups
 
+create table action (
+  id                        bigint not null,
+  temp_low                  float,
+  temp_high                 float,
+  port                      integer,
+  trigger_id                bigint,
+  action_up                 boolean,
+  trigger_cv                boolean,
+  is_cv                     boolean,
+  status                    boolean,
+  constraint pk_action primary key (id))
+;
+
 create table device (
   id                        bigint not null,
   name                      varchar(255),
   ip_address                varchar(255),
+  unique_id                 varchar(255),
   last_update               timestamp not null,
   constraint pk_device primary key (id))
 ;
 
-create table device_role (
+create table sensor (
   id                        bigint not null,
   name                      varchar(255),
-  constraint pk_device_role primary key (id))
+  sensor_id                 varchar(255),
+  temp                      float,
+  device_id                 bigint,
+  last_update               timestamp not null,
+  constraint pk_sensor primary key (id))
+;
+
+create table sensor_role (
+  id                        bigint not null,
+  name                      varchar(255),
+  constraint pk_sensor_role primary key (id))
 ;
 
 
-create table device_device_role (
+create table device_action (
   device_id                      bigint not null,
-  device_role_id                 bigint not null,
-  constraint pk_device_device_role primary key (device_id, device_role_id))
+  action_id                      bigint not null,
+  constraint pk_device_action primary key (device_id, action_id))
 ;
+
+create table sensor_sensor_role (
+  sensor_id                      bigint not null,
+  sensor_role_id                 bigint not null,
+  constraint pk_sensor_sensor_role primary key (sensor_id, sensor_role_id))
+;
+create sequence action_seq;
+
 create sequence device_seq;
 
-create sequence device_role_seq;
+create sequence sensor_seq;
+
+create sequence sensor_role_seq;
+
+alter table action add constraint fk_action_trigger_1 foreign key (trigger_id) references sensor (id) on delete restrict on update restrict;
+create index ix_action_trigger_1 on action (trigger_id);
+alter table sensor add constraint fk_sensor_device_2 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_sensor_device_2 on sensor (device_id);
 
 
 
+alter table device_action add constraint fk_device_action_device_01 foreign key (device_id) references device (id) on delete restrict on update restrict;
 
-alter table device_device_role add constraint fk_device_device_role_device_01 foreign key (device_id) references device (id) on delete restrict on update restrict;
+alter table device_action add constraint fk_device_action_action_02 foreign key (action_id) references action (id) on delete restrict on update restrict;
 
-alter table device_device_role add constraint fk_device_device_role_device__02 foreign key (device_role_id) references device_role (id) on delete restrict on update restrict;
+alter table sensor_sensor_role add constraint fk_sensor_sensor_role_sensor_01 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
+
+alter table sensor_sensor_role add constraint fk_sensor_sensor_role_sensor__02 foreign key (sensor_role_id) references sensor_role (id) on delete restrict on update restrict;
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists action;
+
 drop table if exists device;
 
-drop table if exists device_device_role;
+drop table if exists device_action;
 
-drop table if exists device_role;
+drop table if exists sensor;
+
+drop table if exists sensor_sensor_role;
+
+drop table if exists sensor_role;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
+drop sequence if exists action_seq;
+
 drop sequence if exists device_seq;
 
-drop sequence if exists device_role_seq;
+drop sequence if exists sensor_seq;
+
+drop sequence if exists sensor_role_seq;
 

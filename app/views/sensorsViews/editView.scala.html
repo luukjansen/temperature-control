@@ -1,0 +1,51 @@
+@(myForm: Form[Sensor], sensor: Sensor)
+
+    @main("Edit a sensor") {
+
+        @if(myForm("id").value == "" || myForm("id").value == null) {
+            <h2>Add the sensor</h2>
+        } else {
+            <h2>Update the sensor</h2>
+        }
+
+        @if(myForm.hasGlobalErrors) {
+            <ul>
+            @myForm.globalErrors.foreach { error =>
+                <li>error.message</li>
+            }
+            </ul>
+        }
+
+        @helper.form(action = routes.Sensors.update()) {
+
+            @helper.inputText(
+                myForm("name"),
+                '_label -> "Name"
+            )
+
+            @helper.inputText(
+                myForm("sensorId"),
+                '_label -> "Sensor unique id"
+            )
+
+            @helper.inputCheckboxGroup(
+                myForm("rolesIds"),
+                options = helper.options(models.SensorRole.selectOptions()),
+                '_label -> "Roles of the sensor"
+            )
+
+            <div>Device: @sensor.device.name</div>
+
+            @if(sensor != null) {
+                <div>Last recorded temperature: @sensor.temp</div>
+                <div>Last updated: @sensor.lastUpdate</div>
+            }
+
+            <input type="hidden" name="device.id" value="@myForm("device.id").value">
+            <input type="hidden" name="id" value="@myForm("id").value">
+            <input type="submit" value="Submit">
+        }
+
+        <a href="@routes.Sensors.index()">Cancel</a>
+    }
+

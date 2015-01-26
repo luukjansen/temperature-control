@@ -25,13 +25,14 @@ public class Device extends Model {
     @Constraints.Required
     public String ipAddress;
 
+    @Constraints.Required
+    public String uniqueId;
+
+    @ManyToOne
+    public List<Sensor> sensors = new ArrayList<>();
+
     @ManyToMany
-    public List<DeviceRole> roles = new ArrayList<>();
-
-
-    @Transient
-    public List<Long> rolesIds = new ArrayList<>();
-
+    public List<Action> actions = new ArrayList<>();
 
     @Version
     public Timestamp lastUpdate;

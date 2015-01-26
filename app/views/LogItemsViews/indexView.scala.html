@@ -1,0 +1,15 @@
+@(logItems: List[LogItem])
+
+@main("Sensors") {
+  <h1>List of sensors</h1>
+  <table>
+  @for(logItem <- logItems) {
+    <tr>
+    <td>@logItem.message</td>
+    <td>@logItem.lastUpdate</td>
+    <td><a href="@routes.LogItems.delete(logItem.id)">delete</a></td>
+    </tr>
+  }
+  </table>
+
+}

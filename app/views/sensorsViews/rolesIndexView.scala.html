@@ -1,0 +1,19 @@
+@(roles: List[SensorRole])
+
+@main("Sensors") {
+    <h1>List of sensors grouped by roles</h1>
+    @for(role <- roles) {
+        <h2>@role.name</h2>
+        <ul>
+        @for(sensor <- role.sensors) {
+            <li>
+                <a href="@routes.Sensors.edit(sensor.id)">@sensor.name </a>
+                    @sensor.name
+                    [@for(role <- sensor.roles) { @role.name }]
+
+            </li>
+        }
+        </ul>
+    }
+
+}

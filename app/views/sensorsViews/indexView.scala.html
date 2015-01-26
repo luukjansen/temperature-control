@@ -1,0 +1,17 @@
+@(sensors: List[Sensor])
+
+@main("Sensors") {
+  <h1>List of sensors</h1>
+  <table class="adminTable">
+  @for(sensor <- sensors) {
+    <tr>
+    <td><a href="@routes.Sensors.edit(sensor.id)">@sensor.name<a/></td>
+    <td>@sensor.temp˚</td>
+    <td>[@for(role <- sensor.roles) { @role.name }]</td>
+    <td><a href="@routes.Sensors.edit(sensor.id)">edit<a/> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
+    </tr>
+  }
+  </table>
+  <div><a href="@routes.Application.index()">Back</a></div>
+
+}

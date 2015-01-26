@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
-public class DeviceRole extends Model {
+public class SensorRole extends Model {
 
     public static enum RoleName {
-        SERVER,
+        DISPLAY,
         TEMPERATURE,
         HUMIDITY,
-        SWITCH,
-        OTHER
+        OTHER,
+        UNKNOWN
     }
 
 
@@ -29,22 +29,22 @@ public class DeviceRole extends Model {
     public String name;
 
     @ManyToMany(mappedBy = "roles")
-    public List<Device> devices;
+    public List<Sensor> sensors;
 
 
-    public static Finder<Long, DeviceRole> find = new Finder<Long, DeviceRole>(
-            Long.class, DeviceRole.class
+    public static Finder<Long, SensorRole> find = new Finder<Long, SensorRole>(
+            Long.class, SensorRole.class
     );
 
-    public static DeviceRole findByRoleName(RoleName roleName) {
+    public static SensorRole findByRoleName(RoleName roleName) {
         return find.where().eq("name", roleName.toString()).findUnique();
     }
 
     public static Map<String, String> selectOptions() {
         Map<String, String> options = new LinkedHashMap<>();
 
-        for (DeviceRole deviceRole : find.all()) {
-            options.put(deviceRole.id.toString(), deviceRole.name);
+        for (SensorRole sensorRole : find.all()) {
+            options.put(sensorRole.id.toString(), sensorRole.name);
         }
 
         return options;

@@ -1,0 +1,61 @@
+
+
+
+.container {
+    width: 320px;
+    height:240px;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 2.8em;
+}
+
+h3 {
+	font-size: 1.6em;
+    text-decoration:underline
+}
+
+.tempDiv {
+	font-size: 5em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.tempDivSmall {
+	font-size: 1em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+
+.adminTable {
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: WhiteSmoke ;
+}
+
+.adminTable th {
+	border-width: 1px;
+	border-style: dotted;
+	border-color: gray;
+    padding: 5px;
+	background-color: white;
+	-moz-border-radius: 10px;
+}
+
+.adminTable td {
+	border-width: 1px;
+	border-style: none;
+	border-color: gray;
+    padding: 5px;
+	background-color: white;
+	-moz-border-radius: 10px;
+}

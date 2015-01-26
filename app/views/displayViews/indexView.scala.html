@@ -1,0 +1,14 @@
+@(sensors: List[Sensor])
+<meta http-equiv="refresh" content="5" >
+
+@main("Sensors") {
+  <table width="100%">
+  @for(sensor <- sensors) {
+    <tr>
+      <td><div class="tempDiv">@("%.1f".format(sensor.temp))˚</div></td>
+    </tr>
+    <tr><td><div class="tempDivSmall"><a href="@routes.Application.index()">Main menu</a> - @sensor.lastUpdate.format("dd MMM yy - HH:mm")</div></td></tr>
+  }
+  </table>
+
+}
