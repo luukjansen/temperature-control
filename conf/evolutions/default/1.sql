@@ -21,8 +21,20 @@ create table device (
   name                      varchar(255),
   ip_address                varchar(255),
   unique_id                 varchar(255),
+  latest_error_id           bigint,
   last_update               timestamp not null,
   constraint pk_device primary key (id))
+;
+
+create table log_item (
+  id                        bigint not null,
+  message                   varchar(255),
+  time                      timestamp,
+  last_update               timestamp,
+  accepted                  boolean,
+  device_id                 bigint,
+  sensor_id                 bigint,
+  constraint pk_log_item primary key (id))
 ;
 
 create table sensor (
@@ -30,6 +42,7 @@ create table sensor (
   name                      varchar(255),
   sensor_id                 varchar(255),
   temp                      float,
+  latest_error_id           bigint,
   device_id                 bigint,
   last_update               timestamp not null,
   constraint pk_sensor primary key (id))
@@ -57,14 +70,24 @@ create sequence action_seq;
 
 create sequence device_seq;
 
+create sequence log_item_seq;
+
 create sequence sensor_seq;
 
 create sequence sensor_role_seq;
 
 alter table action add constraint fk_action_trigger_1 foreign key (trigger_id) references sensor (id) on delete restrict on update restrict;
 create index ix_action_trigger_1 on action (trigger_id);
-alter table sensor add constraint fk_sensor_device_2 foreign key (device_id) references device (id) on delete restrict on update restrict;
-create index ix_sensor_device_2 on sensor (device_id);
+alter table device add constraint fk_device_latestError_2 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
+create index ix_device_latestError_2 on device (latest_error_id);
+alter table log_item add constraint fk_log_item_device_3 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_log_item_device_3 on log_item (device_id);
+alter table log_item add constraint fk_log_item_sensor_4 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
+create index ix_log_item_sensor_4 on log_item (sensor_id);
+alter table sensor add constraint fk_sensor_latestError_5 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
+create index ix_sensor_latestError_5 on sensor (latest_error_id);
+alter table sensor add constraint fk_sensor_device_6 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_sensor_device_6 on sensor (device_id);
 
 
 
@@ -86,6 +109,8 @@ drop table if exists device;
 
 drop table if exists device_action;
 
+drop table if exists log_item;
+
 drop table if exists sensor;
 
 drop table if exists sensor_sensor_role;
@@ -97,6 +122,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists action_seq;
 
 drop sequence if exists device_seq;
+
+drop sequence if exists log_item_seq;
 
 drop sequence if exists sensor_seq;
 

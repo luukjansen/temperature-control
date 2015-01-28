@@ -36,7 +36,7 @@ public class Api extends Controller {
             String decodedData = decrypt(dataString);
 
             String remoteAddress = request().remoteAddress();
-            Logger.debug("Remote address for server stats: " + remoteAddress + " with data " + decodedData);
+            //Logger.debug("Remote address for server stats: " + remoteAddress + " with data " + decodedData);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readValue(decodedData, JsonNode.class); // src can be a File, URL, InputStream etc

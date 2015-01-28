@@ -1,14 +1,44 @@
-@(sensors: List[Sensor])
-<meta http-equiv="refresh" content="5" >
+@(primary: Sensor, secondary: List[Sensor], errors: List[LogItem])
+<script>
+function updateData ( ) {
+$.get ('@routes.Display.displayData()', function ( data ) {
+    //getMediaFileStatus();
+    document.getElementById ( 'primaryTemp' ).innerHTML = data.primaryTemp.toFixed(1) ;
+    document.getElementById ( 'secondTemp1' ).innerHTML = data.secondTemp1.toFixed(1) ;
+    document.getElementById ( 'secondTemp2' ).innerHTML = data.secondTemp2.toFixed(1) ;
+    document.getElementById ( 'secondTemp3' ).innerHTML = data.secondTemp3.toFixed(1) ;
+
+    setTimeout ( function ( ) {
+        updateData ( ) ;
+    }, 25000 ) ;
+} ) ;
+}
+
+setTimeout ( function ( ) {
+    updateData ( ) ;
+}, 5000 ) ;
+
+
+
+</script>
 
 @main("Sensors") {
   <table width="100%">
-  @for(sensor <- sensors) {
+
     <tr>
-      <td><div class="tempDiv">@("%.1f".format(sensor.temp))˚</div></td>
+        <td colspan="3"><div id="primaryTemp" class="tempDiv">@if(primary != null){@("%.1f".format(primary.temp))}</div></td>
     </tr>
-    <tr><td><div class="tempDivSmall"><a href="@routes.Application.index()">Main menu</a> - @sensor.lastUpdate.format("dd MMM yy - HH:mm")</div></td></tr>
-  }
+    <tr><td colspan="3"><div class="tempLabel">@if(primary != null){@primary.name}</div></td></tr>
+
+    <tr>
+
+        <td><div id="secondTemp1" class="tempDiv">@if(secondary.size() > 0) {@("%.1f".format(secondary.get(0).temp))˚}</div></td>
+        <td><div id="secondTemp2" class="tempDiv"> @if(secondary.size() > 1) {@("%.1f".format(secondary.get(1).temp))˚}</div></td>
+        <td><div id="secondTemp3" class="tempDiv">@if(secondary.size() > 2) {@("%.1f".format(secondary.get(2).temp))˚}</div></td>
+
+    </tr>
+
+    <tr><td><div class="tempDivSmall"><a href="@routes.Application.index()">Main menu</a> @if(primary != null){- @primary.lastUpdate.format("dd MMM yy - HH:mm:ss")}</div></td></tr>
   </table>
 
 }

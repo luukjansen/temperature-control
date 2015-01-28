@@ -3,30 +3,31 @@
 # ~~~~
 
 # Home page
-GET         /                          controllers.Application.index
+GET         /                           controllers.Application.index
 
-GET         /devices/                  controllers.Devices.index
-GET         /devices/add               controllers.Devices.add
-POST        /devices/update            controllers.Devices.update
-GET         /devices/:id/delete        controllers.Devices.delete(id: Long)
-GET         /devices/:id/edit          controllers.Devices.edit(id: Long)
+GET         /devices/                   controllers.Devices.index
+GET         /devices/add                controllers.Devices.add
+POST        /devices/update             controllers.Devices.update
+GET         /devices/:id/delete         controllers.Devices.delete(id: Long)
+GET         /devices/:id/edit           controllers.Devices.edit(id: Long)
 
-GET         /sensors/                  controllers.Sensors.index
-GET         /sensors/add               controllers.Sensors.add
-POST        /sensors/update            controllers.Sensors.update
-GET         /sensors/:id/delete        controllers.Sensors.delete(id: Long)
-GET         /sensors/:id/edit          controllers.Sensors.edit(id: Long)
+GET         /sensors/                   controllers.Sensors.index
+GET         /sensors/add                controllers.Sensors.add
+POST        /sensors/update             controllers.Sensors.update
+GET         /sensors/:id/delete         controllers.Sensors.delete(id: Long)
+GET         /sensors/:id/edit           controllers.Sensors.edit(id: Long)
 
-GET         /roles/                    controllers.Sensors.rolesIndex()
+GET         /roles/                     controllers.Sensors.rolesIndex()
 
-GET         /logItems/                 controllers.LogItems.index
-GET         /logItems/:id/delete       controllers.LogItems.delete(id: Long)
+GET         /logItems/                  controllers.LogItems.index
+GET         /logItems/:id/delete        controllers.LogItems.delete(id: Long)
 
-GET         /display/                  controllers.Display.index()
+GET         /display/                   controllers.Display.index()
+GET         /display/displayData        controllers.Display.displayData()
 
-GET        /api/sensorData             controllers.Api.sensorData(data)
+GET         /api/sensorData             controllers.Api.sensorData(data)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.at(path="/public", file)
+GET         /assets/*file               controllers.Assets.at(path="/public", file)
 
     

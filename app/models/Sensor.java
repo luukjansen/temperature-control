@@ -27,6 +27,9 @@ public class Sensor extends Model {
 
     public float temp;
 
+    @OneToOne
+    public LogItem latestError;
+
     @ManyToOne
     @Constraints.Required
     public Device device;
@@ -40,4 +43,12 @@ public class Sensor extends Model {
     public static Finder<Long, Sensor> find = new Finder<Long, Sensor>(
             Long.class, Sensor.class
     );
+
+    public static Sensor getPrimarySensor() {
+        return Sensor.find.where().in("roles.name", "PRIMARY").findUnique();
+    }
+
+    public static List<Sensor> getSecondarySensors(){
+        return Sensor.find.where().in("roles.name", "SECONDARY").findList();
+    }
 }

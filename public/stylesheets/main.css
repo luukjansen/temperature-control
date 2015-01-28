@@ -25,6 +25,13 @@ h3 {
 	text-align: center;
 }
 
+.tempLabel {
+	font-size: 0.75em;
+	color: lightblue;
+	vertical-align: middle;
+	text-align: center;
+}
+
 .tempDivSmall {
 	font-size: 1em;
 	vertical-align: middle;

@@ -2,14 +2,13 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Luuk on 26/01/15.
  */
+@Entity
 public class LogItem extends Model {
 
     @Id
@@ -21,10 +20,12 @@ public class LogItem extends Model {
 
     public Date lastUpdate;
 
-    @OneToMany
+    public boolean accepted;
+
+    @OneToOne
     public Device device;
 
-    @OneToMany
+    @OneToOne
     public Sensor sensor;
 
     public static Finder<Long, LogItem> find = new Finder<Long, LogItem>(

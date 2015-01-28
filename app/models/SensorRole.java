@@ -14,7 +14,8 @@ import java.util.Map;
 public class SensorRole extends Model {
 
     public static enum RoleName {
-        DISPLAY,
+        PRIMARY,
+        SECONDARY,
         TEMPERATURE,
         HUMIDITY,
         OTHER,

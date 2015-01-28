@@ -34,6 +34,9 @@ public class Device extends Model {
     @ManyToMany
     public List<Action> actions = new ArrayList<>();
 
+    @OneToOne
+    public LogItem latestError;
+
     @Version
     public Timestamp lastUpdate;
 
