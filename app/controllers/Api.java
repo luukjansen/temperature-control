@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Action;
 import models.Device;
 import models.Sensor;
 import models.SensorRole;
@@ -17,6 +18,8 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -43,8 +46,6 @@ public class Api extends Controller {
 
             if(!rootNode.get("status").asText().equalsIgnoreCase("ok")) throw new Exception("Check this sensor, as it gives a error: " + rootNode.get("status").asText());
 
-            double tempTemp = -999;
-
             String uniqueId = rootNode.get("serial").asText();
             Device device = Device.find.where().ilike("uniqueId", uniqueId).findUnique();
 
@@ -57,7 +58,9 @@ public class Api extends Controller {
                 device.save();
             }
 
-            // Get the temperature reading
+            ArrayNode actions = mapper.createArrayNode();
+
+            // Get the sensor readings
             if(rootNode.get("sensors").isArray()){
                 for (JsonNode node : rootNode.get("sensors")) {
                     String sensorId = node.get("sensor").asText();
@@ -74,13 +77,25 @@ public class Api extends Controller {
                         if (!Objects.equals(sensor.device.id, device.id)) throw new Exception("Problem, the sensor found belongs to another device...");
                     }
 
-                    sensor.temp = (float) node.get("temp").asDouble();
+                    sensor.value = (float) node.get("value").asDouble();
                     sensor.save();
-                    tempTemp = sensor.temp;
+
+                    // Perform the actions
+                    for(Action action : sensor.actions){
+                        String sAction = action.checkForAction();
+                        if(sAction != null){
+                            ObjectNode actionObject = Json.newObject();
+                            actionObject.put("action", "setHigh");
+                            actionObject.put("pin", action.pin);
+                            actions.add(actionObject);
+                        }
+                    }
+
                 }
             }
 
-            // Perform the actions
+
+            /*
             ArrayNode actions = mapper.createArrayNode();
             if(tempTemp > 21){
                 ObjectNode action = Json.newObject();
@@ -95,8 +110,11 @@ public class Api extends Controller {
 
                 actions.add(action);
             }
+            */
 
             result.put("actions", actions);
+
+            result.put("time", "SUCCESS");
             result.put("status", "SUCCESS");
 
             return ok(result);

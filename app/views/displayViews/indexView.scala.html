@@ -3,15 +3,17 @@
 function updateData ( ) {
 $.get ('@routes.Display.displayData()', function ( data ) {
     //getMediaFileStatus();
-    document.getElementById ( 'primaryTemp' ).innerHTML = data.primaryTemp.toFixed(1) ;
-    document.getElementById ( 'secondTemp1' ).innerHTML = data.secondTemp1.toFixed(1) ;
-    document.getElementById ( 'secondTemp2' ).innerHTML = data.secondTemp2.toFixed(1) ;
-    document.getElementById ( 'secondTemp3' ).innerHTML = data.secondTemp3.toFixed(1) ;
+    if(data.primaryTemp != null) document.getElementById ('primaryTemp').innerHTML = data.primaryTemp.toFixed(1);
+    if(data.secondTemp1 != null)document.getElementById('secondTemp1').innerHTML = data.secondTemp1.toFixed(1);
+    if(data.secondTemp2 != null) document.getElementById('secondTemp2').innerHTML = data.secondTemp2.toFixed(1);
+    if(data.secondTemp3 != null) document.getElementById('secondTemp3').innerHTML = data.secondTemp3.toFixed(1);
+
+    if(data.lastUpdate != null) document.getElementById('lastUpdate' ).innerHTML = data.lastUpdate;
 
     setTimeout ( function ( ) {
         updateData ( ) ;
     }, 25000 ) ;
-} ) ;
+} )
 }
 
 setTimeout ( function ( ) {
@@ -23,22 +25,26 @@ setTimeout ( function ( ) {
 </script>
 
 @main("Sensors") {
-  <table width="100%">
+  <table class="tempTable">
 
     <tr>
-        <td colspan="3"><div id="primaryTemp" class="tempDiv">@if(primary != null){@("%.1f".format(primary.temp))}</div></td>
-    </tr>
-    <tr><td colspan="3"><div class="tempLabel">@if(primary != null){@primary.name}</div></td></tr>
-
-    <tr>
-
-        <td><div id="secondTemp1" class="tempDiv">@if(secondary.size() > 0) {@("%.1f".format(secondary.get(0).temp))˚}</div></td>
-        <td><div id="secondTemp2" class="tempDiv"> @if(secondary.size() > 1) {@("%.1f".format(secondary.get(1).temp))˚}</div></td>
-        <td><div id="secondTemp3" class="tempDiv">@if(secondary.size() > 2) {@("%.1f".format(secondary.get(2).temp))˚}</div></td>
-
+        <td colspan="3">
+            <div style="position: relative; height: 100%">
+                <div id="primaryTemp" class="tempDiv">@if(primary != null){@("%.1f".format(primary.value))}</div>
+                <div class="tempLabel">@if(primary != null){@primary.name}</div>
+            </div>
+        </td>
     </tr>
 
-    <tr><td><div class="tempDivSmall"><a href="@routes.Application.index()">Main menu</a> @if(primary != null){- @primary.lastUpdate.format("dd MMM yy - HH:mm:ss")}</div></td></tr>
+    <tr class="tempSecondaryRow">
+
+        <td><div id="secondTemp1" class="tempDiv">@if(secondary.size() > 0) {@("%.1f".format(secondary.get(0).value))˚}</div></td>
+        <td><div id="secondTemp2" class="tempDiv">@if(secondary.size() > 1) {@("%.1f".format(secondary.get(1).value))˚}</div></td>
+        <td><div id="secondTemp3" class="tempDiv">@if(secondary.size() > 2) {@("%.1f".format(secondary.get(2).value))˚}</div></td>
+
+    </tr>
+
+    <tr class="tempFooterRow"><td><div class="tempDivSmall"><a href="@routes.Application.index()">Main menu</a> - <span id="lastUpdate">@if(primary != null){@primary.lastUpdate.format("dd MMM yy - HH:mm")}</span></div></td></tr>
   </table>
 
 }

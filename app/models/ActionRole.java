@@ -10,16 +10,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by Luuk on 30/01/15.
+ */
 @Entity
-public class SensorRole extends Model {
+public class ActionRole extends Model {
 
     public static enum RoleName {
-        PRIMARY,
-        SECONDARY,
         TEMPERATURE,
-        HUMIDITY,
-        LIGHT,
-        PORT,
+        CV,
+        DISPLAY,
+        TEMP_UP,
+        TEMP_DOWN,
+        SLEEP,
         UNKNOWN
     }
 
@@ -34,19 +37,19 @@ public class SensorRole extends Model {
     public List<Sensor> sensors;
 
 
-    public static Finder<Long, SensorRole> find = new Finder<Long, SensorRole>(
-            Long.class, SensorRole.class
+    public static Model.Finder<Long, ActionRole> find = new Model.Finder<Long, ActionRole>(
+            Long.class, ActionRole.class
     );
 
-    public static SensorRole findByRoleName(RoleName roleName) {
+    public static ActionRole findByRoleName(RoleName roleName) {
         return find.where().eq("name", roleName.toString()).findUnique();
     }
 
     public static Map<String, String> selectOptions() {
         Map<String, String> options = new LinkedHashMap<>();
 
-        for (SensorRole sensorRole : find.all()) {
-            options.put(sensorRole.id.toString(), sensorRole.name);
+        for (ActionRole actionRole : find.all()) {
+            options.put(actionRole.id.toString(), actionRole.name);
         }
 
         return options;

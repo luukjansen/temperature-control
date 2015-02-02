@@ -1,0 +1,73 @@
+@(myForm: Form[models.Action], action: models.Action)
+
+    @main("Edit an action") {
+
+        @if(myForm("id").value == "" || myForm("id").value == null) {
+            <h2>Add the action</h2>
+        } else {
+            <h2>Update the action</h2>
+        }
+
+        @if(myForm.hasGlobalErrors) {
+            <ul>
+            @myForm.globalErrors.foreach { error =>
+                <li>error.message</li>
+            }
+            </ul>
+        }
+
+        @helper.form(action = routes.Actions.update()) {
+
+            @helper.inputText(
+                myForm("name"),
+                '_label -> "Name"
+            )
+
+            @helper.inputText(
+                myForm("tempLow"),
+                '_label -> "Low action temp"
+            )
+
+@helper.inputText(
+    myForm("tempHeigh"),
+    '_label -> "Heigh action temp"
+)
+
+@helper.inputText(
+    myForm("pin"),
+    '_label -> "Pin number (PI4J)"
+)
+
+@helper.checkbox(
+    myForm("actionUp"),
+    '_label -> "Does the temperature rise (e.g. heater)"
+)
+
+@helper.checkbox(
+    myForm("fix"),
+    '_label -> "Override, i.e. do not change"
+)
+
+@helper.checkbox(
+    myForm("status"),
+    '_label -> "Current status"
+)
+
+
+            @helper.inputCheckboxGroup(
+                myForm("rolesIds"),
+                options = helper.options(models.ActionRole.selectOptions()),
+                '_label -> "Roles of the action"
+            )
+
+            <div>Sensor '@action.sensor.name' of device '@action.sensor.device.name'</div>
+
+
+            <input type="hidden" name="sensor.id" value="@myForm("sensor.id").value">
+            <input type="hidden" name="id" value="@myForm("id").value">
+            <input type="submit" value="Submit">
+        }
+
+        <a href="@routes.Sensors.edit(action.sensor.id)">Cancel</a>
+    }
+

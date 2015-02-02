@@ -5,10 +5,10 @@
   <table class="adminTable">
   @for(sensor <- sensors) {
     <tr>
-    <td><a href="@routes.Sensors.edit(sensor.id)">@sensor.name<a/></td>
-    <td>@sensor.temp˚</td>
+    <td><a href="@routes.Sensors.edit(sensor.id)">@sensor.name</a></td>
+    <td>@sensor.value˚</td>
     <td>[@for(role <- sensor.roles) { @role.name }]</td>
-    <td><a href="@routes.Sensors.edit(sensor.id)">edit<a/> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
+    <td><a href="@routes.Sensors.edit(sensor.id)">edit</a> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
     </tr>
   }
   </table>

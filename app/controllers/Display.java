@@ -8,6 +8,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,15 @@ public class Display extends Controller {
         ObjectNode result = Json.newObject();
         List<Sensor> secondarySensors = Sensor.getSecondarySensors();
 
-        result.put("primaryTemp", Sensor.getPrimarySensor().temp);
-        result.put("secondTemp1", "");
-        result.put("secondTemp2", "");
-        result.put("secondTemp3", "");
-        if(secondarySensors.size() > 0) result.put("secondTemp1", secondarySensors.get(0).temp);
-        if(secondarySensors.size() > 0) result.put("secondTemp2", secondarySensors.get(1).temp);
-        if(secondarySensors.size() > 0) result.put("secondTemp3", secondarySensors.get(2).temp);
+        Sensor primary = Sensor.getPrimarySensor();
+        result.put("primaryTemp", primary.value);
+
+        String formattedDate = new SimpleDateFormat("dd MMM yy - HH:mm").format(primary.lastUpdate);
+        result.put("lastUpdate", formattedDate);
+
+        if(secondarySensors.size() > 0) result.put("secondTemp1", secondarySensors.get(0).value);
+        if(secondarySensors.size() > 1) result.put("secondTemp2", secondarySensors.get(1).value);
+        if(secondarySensors.size() > 2) result.put("secondTemp3", secondarySensors.get(2).value);
 
         return ok(result);
     }

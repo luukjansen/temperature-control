@@ -16,7 +16,7 @@
             </ul>
         }
 
-        @helper.form(action = routes.Sensors.update()) {
+        @helper.form(action = routes.Actions.update()) {
 
             @helper.inputText(
                 myForm("name"),
@@ -37,7 +37,18 @@
             <div>Device: @sensor.device.name</div>
 
             @if(sensor != null) {
-                <div>Last recorded temperature: @sensor.temp</div>
+                <table class="adminTable">
+                @for(action <- sensor.actions) {
+                    <tr>
+                        <td><a href="@routes.Actions.edit(sensor.id)">@action.name</a></td>
+                        <td>@action.fix</td>
+                        <td><a href="@routes.Actions.edit(action.id)">edit</a> | <a href="@routes.Actions.delete(action.id)">delete</a></td>
+                    </tr>
+                }
+                </table>
+                <div><a href="@routes.Actions.add(sensor.id)">Add action</a></div>
+
+                <div>Last recorded temperature: @sensor.value</div>
                 <div>Last updated: @sensor.lastUpdate</div>
             }
 

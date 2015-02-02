@@ -185,12 +185,14 @@
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ScalaCompilerConfiguration">
-    <option name="deprecationWarnings" value="true" />
-    <option name="uncheckedWarnings" value="true" />
-    <parameters>
-      <parameter value="-encoding" />
-      <parameter value="utf8" />
-    </parameters>
+    <profile name="SBT 1" modules="temperature-control">
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <parameters>
+        <parameter value="-encoding" />
+        <parameter value="utf8" />
+      </parameters>
+    </profile>
   </component>
   <component name="ScalaSbtSettings">
     <option name="linkedExternalProjectsSettings">

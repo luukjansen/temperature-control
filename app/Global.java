@@ -1,6 +1,7 @@
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import logic.UDPBroadcastServer;
+import models.ActionRole;
 import models.SensorRole;
 import play.Application;
 import play.GlobalSettings;
@@ -18,8 +19,14 @@ public class Global extends GlobalSettings {
                 newRole.name = roleName.toString();
                 newRole.save();
             }
+        }
 
-
+        if (ActionRole.find.findRowCount() != ActionRole.RoleName.values().length) {
+            for (ActionRole.RoleName roleName : ActionRole.RoleName.values()) {
+                ActionRole newRole = new ActionRole();
+                newRole.name = roleName.toString();
+                newRole.save();
+            }
         }
 
         ActorRef instance = Akka.system().actorOf(Props.create(UDPBroadcastServer.class), "UDPServer");
@@ -35,9 +42,6 @@ public class Global extends GlobalSettings {
         Logger.debug("Stopping system...");
         ActorRef test = Akka.system().actorFor("//application/user/UDPServer");
         test.tell("Stop", ActorRef.noSender());
-
-        //Akka.system().stop(test);
-        //Logger.debug("Stopped? " + test.isTerminated());
 
         Akka.system().shutdown();
 

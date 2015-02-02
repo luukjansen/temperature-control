@@ -19,10 +19,26 @@ h3 {
     text-decoration:underline
 }
 
+.tempTable {
+    width: 100%;
+    height: 100%;
+}
+
+.tempSecondaryRow {
+    height: 50px;
+}
+
+.tempFooterRow {
+    height: 30px;
+}
+
 .tempDiv {
 	font-size: 5em;
 	vertical-align: middle;
 	text-align: center;
+
+    line-height: 140px;
+    position: relative;
 }
 
 .tempLabel {
@@ -30,6 +46,11 @@ h3 {
 	color: lightblue;
 	vertical-align: middle;
 	text-align: center;
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
 }
 
 .tempDivSmall {

@@ -25,7 +25,7 @@ public class Sensor extends Model {
     @Version
     public Date lastUpdate;
 
-    public float temp;
+    public float value;
 
     @OneToOne
     public LogItem latestError;
@@ -33,6 +33,9 @@ public class Sensor extends Model {
     @ManyToOne
     @Constraints.Required
     public Device device;
+
+    @OneToMany
+    public List<Action> actions = new ArrayList<>();
 
     @ManyToMany
     public List<SensorRole> roles = new ArrayList<>();

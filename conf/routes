@@ -17,6 +17,11 @@ POST        /sensors/update             controllers.Sensors.update
 GET         /sensors/:id/delete         controllers.Sensors.delete(id: Long)
 GET         /sensors/:id/edit           controllers.Sensors.edit(id: Long)
 
+GET         /actions/:sensorId/add      controllers.Actions.add(sensorId: Long)
+POST        /actions/update             controllers.Actions.update
+GET         /actions/:id/delete         controllers.Actions.delete(id: Long)
+GET         /actions/:id/edit           controllers.Actions.edit(id: Long)
+
 GET         /roles/                     controllers.Sensors.rolesIndex()
 
 GET         /logItems/                  controllers.LogItems.index
