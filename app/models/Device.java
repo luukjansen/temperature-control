@@ -28,10 +28,10 @@ public class Device extends Model {
     @Constraints.Required
     public String uniqueId;
 
-    @ManyToOne
+    @OneToMany(mappedBy="device")
     public List<Sensor> sensors = new ArrayList<>();
 
-    @ManyToMany
+    @OneToMany(mappedBy="device")
     public List<Action> actions = new ArrayList<>();
 
     @OneToOne

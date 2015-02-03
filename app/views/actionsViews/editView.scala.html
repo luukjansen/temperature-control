@@ -1,4 +1,4 @@
-@(myForm: Form[models.Action], action: models.Action)
+@(myForm: Form[models.Action], action: models.Action, deviceList: HashMap[String, String])
 
     @main("Edit an action") {
 
@@ -29,9 +29,13 @@
             )
 
 @helper.inputText(
-    myForm("tempHeigh"),
-    '_label -> "Heigh action temp"
+    myForm("tempHigh"),
+    '_label -> "High action temp"
 )
+
+
+@helper.select(myForm("device.id"), helper.options(deviceList), '_label -> "Device to perform the action on")
+
 
 @helper.inputText(
     myForm("pin"),
@@ -48,12 +52,6 @@
     '_label -> "Override, i.e. do not change"
 )
 
-@helper.checkbox(
-    myForm("status"),
-    '_label -> "Current status"
-)
-
-
             @helper.inputCheckboxGroup(
                 myForm("rolesIds"),
                 options = helper.options(models.ActionRole.selectOptions()),
@@ -63,7 +61,7 @@
             <div>Sensor '@action.sensor.name' of device '@action.sensor.device.name'</div>
 
 
-            <input type="hidden" name="sensor.id" value="@myForm("sensor.id").value">
+            <input type="hidden" name="sensor.id" value="@action.sensor.id">
             <input type="hidden" name="id" value="@myForm("id").value">
             <input type="submit" value="Submit">
         }

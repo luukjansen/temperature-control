@@ -20,6 +20,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -81,40 +83,19 @@ public class Api extends Controller {
                     sensor.save();
 
                     // Perform the actions
-                    for(Action action : sensor.actions){
-                        String sAction = action.checkForAction();
-                        if(sAction != null){
-                            ObjectNode actionObject = Json.newObject();
-                            actionObject.put("action", "setHigh");
-                            actionObject.put("pin", action.pin);
-                            actions.add(actionObject);
-                        }
+                    for (ObjectNode actionNode : Action.checkForSensorActions(sensor)) {
+                        actions.add(actionNode);
                     }
 
                 }
             }
 
-
-            /*
-            ArrayNode actions = mapper.createArrayNode();
-            if(tempTemp > 21){
-                ObjectNode action = Json.newObject();
-                action.put("action", "setHigh");
-                action.put("pin", 4);
-
-                actions.add(action);
-            } else {
-                ObjectNode action = Json.newObject();
-                action.put("action", "setLow");
-                action.put("pin", 4);
-
-                actions.add(action);
+            // Now see if there are any actions for the device
+            for (ObjectNode actionNode : Action.checkForDeviceActions(device)) {
+                actions.add(actionNode);
             }
-            */
 
             result.put("actions", actions);
-
-            result.put("time", "SUCCESS");
             result.put("status", "SUCCESS");
 
             return ok(result);

@@ -2,6 +2,7 @@ package controllers;
 
 import models.Action;
 import models.ActionRole;
+import models.Device;
 import models.Sensor;
 import play.data.Form;
 import play.mvc.Controller;
@@ -9,6 +10,8 @@ import play.mvc.Result;
 import views.html.actionsViews.editView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Luuk on 01/02/15.
@@ -20,10 +23,11 @@ public class Actions extends Controller {
 
         Sensor sensor = Sensor.find.byId(sensorId);
         Action action = new Action();
+        action.actionUp = true;
         action.sensor = sensor;
         myForm.fill(action);
 
-        return ok(editView.render(myForm, action));
+        return ok(editView.render(myForm, action, allDevices()));
     }
 
     public static Result delete(Long id) {
@@ -44,7 +48,7 @@ public class Actions extends Controller {
 
         myForm = myForm.fill(action);
 
-        return ok(editView.render(myForm, action));
+        return ok(editView.render(myForm, action, allDevices()));
     }
 
     public static Result update() {
@@ -52,7 +56,7 @@ public class Actions extends Controller {
 
         if (actionForm.hasErrors()) {
             Action action = Action.find.byId(Long.valueOf(actionForm.data().get("id")));
-            return badRequest(editView.render(actionForm, action));
+            return badRequest(editView.render(actionForm, action, allDevices()));
         }
 
         // Form is OK, has no errors we can proceed
@@ -75,4 +79,11 @@ public class Actions extends Controller {
         return redirect(routes.Sensors.edit(action.sensor.id));
     }
 
+    private static HashMap<String, String> allDevices(){
+        HashMap<String, String> devices = new HashMap<>();
+                for(Device device : Device.find.all()){
+                    devices.put(device.id.toString(), device.name);
+                }
+        return devices;
+    }
 }

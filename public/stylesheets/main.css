@@ -29,6 +29,9 @@ h3 {
 }
 
 .tempFooterRow {
+    font-size: 1em;
+    vertical-align: middle;
+   	text-align: center;
     height: 30px;
 }
 
@@ -53,12 +56,23 @@ h3 {
     height: 30px;
 }
 
+.tempLabelSmall {
+	font-size: 0.65em;
+	color: lightblue;
+	vertical-align: middle;
+	text-align: center;
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15px;
+}
+
 .tempDivSmall {
-	font-size: 1em;
+	font-size: 2.0em;
 	vertical-align: middle;
 	text-align: center;
 }
-
 
 .adminTable {
 	width: 100%;

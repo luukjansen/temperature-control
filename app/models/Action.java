@@ -1,12 +1,13 @@
 package models;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.Logger;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Luuk on 25/01/15.
@@ -16,7 +17,7 @@ import java.util.List;
 public class Action extends Model {
 
     /**
-     *  For lack of a better place, sleepMode is controlled here. (Bascially, is inactive mode, everything off)
+     * For lack of a better place, sleepMode is controlled here. (Bascially, is inactive mode, everything off)
      */
     public static boolean sleepMode = false;
 
@@ -33,11 +34,17 @@ public class Action extends Model {
 
     public int pin = -1;
 
+    @Version
+    public Date lastAction;
+
     @ManyToOne
     public Sensor sensor;
 
+    @ManyToOne
+    public Device device;
+
     // If the temperature goes up as a result of the action (e.g. heater/CV)
-    public boolean actionUp = true;
+    public boolean actionUp;
 
     // Locks the current value to manual (not automatic changes)
     public boolean fix = false;
@@ -58,30 +65,113 @@ public class Action extends Model {
      * @return Any action string
      */
 
-    public String checkForAction(){
-        if(sleepMode);
+    public static List<ObjectNode> checkForDeviceActions(Device device) {
+        List<ObjectNode> result = new ArrayList<>();
 
-        if(roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))){
-            if(actionUp) {
-                if (tempLow > sensor.value) {
-                    return "setHigh";
-                } else if (tempHigh < sensor.value) {
-                    return "setLow";
+        for (Action action : device.actions) {
+                // For temperature controllers
+            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                ObjectNode actionObject = Json.newObject();
+                if (action.actionUp) {
+                    if (sleepMode) {
+                        // Turn off
+                        actionObject.put("action", "setLow");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    } else if (action.tempLow > action.sensor.value) {
+                        actionObject.put("action", "setHigh");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    } else if (action.tempHigh < action.sensor.value) {
+                        actionObject.put("action", "setLow");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    }
+                } else {
+                    if (sleepMode) {
+                        // Turn off
+                        actionObject.put("action", "setLow");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    } else if (action.tempLow > action.sensor.value) {
+                        actionObject.put("action", "setLow");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    } else if (action.tempHigh < action.sensor.value) {
+                        actionObject.put("action", "setHigh");
+                        actionObject.put("pin", action.pin);
+                        result.add(actionObject);
+                    }
                 }
-            } else {
-                if (tempLow > sensor.value) {
-                    return "setLow";
-                } else if (tempHigh < sensor.value) {
-                    return "setHigh";
+            }
+        }
+
+        return result;
+    }
+
+    public static List<ObjectNode> checkForSensorActions(Sensor sensor) {
+        List<ObjectNode> result = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MILLISECOND, -500);
+        Date touchDelay = calendar.getTime();
+
+        for (Action action : sensor.actions) {
+            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.DISPLAY))) {
+                if(action.lastAction.before(touchDelay)) {
+                    ObjectNode actionObject = Json.newObject();
+                    actionObject.put("action", "switchDisplay");
+                    result.add(actionObject);
                 }
             }
 
-            // DO nothing for now, should improve.
-            return null;
+            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.SLEEP))) {
+                if(action.lastAction.before(touchDelay)) {
+                    if(sleepMode){
+                        sleepMode = false;
+                        ObjectNode actionObject = Json.newObject();
+                        actionObject.put("action", "turnOnDisplay");
+                        result.add(actionObject);
+                    } else {
+                        // Turn everything related to temperature off
+                        for(Action anAction : action.sensor.actions) {
+                            if(anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                                ObjectNode actionObject = Json.newObject();
+                                actionObject.put("pin", anAction.pin);
+                                actionObject.put("action", "setLow");
+                                result.add(actionObject);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_UP))) {
+                if (action.lastAction.before(touchDelay)) {
+                    for(Action anAction : action.sensor.actions) {
+                        if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                            anAction.tempHigh += 1;
+                            anAction.tempLow += 1;
+                            anAction.save();
+                        }
+                    }
+                }
+            }
+
+            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_DOWN))) {
+                if (action.lastAction.before(touchDelay)) {
+                    for(Action anAction : action.sensor.actions) {
+                        if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                            anAction.tempHigh -= 1;
+                            anAction.tempLow -= 1;
+                            anAction.save();
+                        }
+                    }
+                }
+            }
         }
 
-        // NO action?
-        return null;
-    }
+         return result;
+     }
 
 }

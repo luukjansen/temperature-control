@@ -10,8 +10,10 @@ create table action (
   temp_high                 float,
   pin                       integer,
   sensor_id                 bigint,
+  device_id                 bigint,
   action_up                 boolean,
   fix                       boolean,
+  last_action               timestamp not null,
   constraint pk_action primary key (id))
 ;
 
@@ -66,12 +68,6 @@ create table action_action_role (
   constraint pk_action_action_role primary key (action_id, action_role_id))
 ;
 
-create table device_action (
-  device_id                      bigint not null,
-  action_id                      bigint not null,
-  constraint pk_device_action primary key (device_id, action_id))
-;
-
 create table sensor_sensor_role (
   sensor_id                      bigint not null,
   sensor_role_id                 bigint not null,
@@ -91,26 +87,24 @@ create sequence sensor_role_seq;
 
 alter table action add constraint fk_action_sensor_1 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
 create index ix_action_sensor_1 on action (sensor_id);
-alter table device add constraint fk_device_latestError_2 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
-create index ix_device_latestError_2 on device (latest_error_id);
-alter table log_item add constraint fk_log_item_device_3 foreign key (device_id) references device (id) on delete restrict on update restrict;
-create index ix_log_item_device_3 on log_item (device_id);
-alter table log_item add constraint fk_log_item_sensor_4 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
-create index ix_log_item_sensor_4 on log_item (sensor_id);
-alter table sensor add constraint fk_sensor_latestError_5 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
-create index ix_sensor_latestError_5 on sensor (latest_error_id);
-alter table sensor add constraint fk_sensor_device_6 foreign key (device_id) references device (id) on delete restrict on update restrict;
-create index ix_sensor_device_6 on sensor (device_id);
+alter table action add constraint fk_action_device_2 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_action_device_2 on action (device_id);
+alter table device add constraint fk_device_latestError_3 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
+create index ix_device_latestError_3 on device (latest_error_id);
+alter table log_item add constraint fk_log_item_device_4 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_log_item_device_4 on log_item (device_id);
+alter table log_item add constraint fk_log_item_sensor_5 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
+create index ix_log_item_sensor_5 on log_item (sensor_id);
+alter table sensor add constraint fk_sensor_latestError_6 foreign key (latest_error_id) references log_item (id) on delete restrict on update restrict;
+create index ix_sensor_latestError_6 on sensor (latest_error_id);
+alter table sensor add constraint fk_sensor_device_7 foreign key (device_id) references device (id) on delete restrict on update restrict;
+create index ix_sensor_device_7 on sensor (device_id);
 
 
 
 alter table action_action_role add constraint fk_action_action_role_action_01 foreign key (action_id) references action (id) on delete restrict on update restrict;
 
 alter table action_action_role add constraint fk_action_action_role_action__02 foreign key (action_role_id) references action_role (id) on delete restrict on update restrict;
-
-alter table device_action add constraint fk_device_action_device_01 foreign key (device_id) references device (id) on delete restrict on update restrict;
-
-alter table device_action add constraint fk_device_action_action_02 foreign key (action_id) references action (id) on delete restrict on update restrict;
 
 alter table sensor_sensor_role add constraint fk_sensor_sensor_role_sensor_01 foreign key (sensor_id) references sensor (id) on delete restrict on update restrict;
 
@@ -129,8 +123,6 @@ drop table if exists action_role;
 drop table if exists sensor_sensor_role;
 
 drop table if exists device;
-
-drop table if exists device_action;
 
 drop table if exists log_item;
 
