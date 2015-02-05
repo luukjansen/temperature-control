@@ -2,6 +2,11 @@
 
 
 .container {
+    /* width: 320px; */
+    /* height:240px; */
+}
+
+.display {
     width: 320px;
     height:240px;
 }
@@ -72,6 +77,28 @@ h3 {
 	font-size: 2.0em;
 	vertical-align: middle;
 	text-align: center;
+}
+
+.errorDialog {
+    position:fixed;
+    top: 60px;
+    left: 30px;
+    width:240px;
+    height:120px;
+    /*margin-top: -160px; /*set to a negative number 1/2 of your height*/
+    /*margin-left: -80px; /*set to a negative number 1/2 of your width*/
+    border: 1px solid red;
+    color: red;
+    background-color: #f3f3f3;
+    vertical-align: middle;
+   	text-align: center;
+
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    padding:10px 18px 10px 18px;
+    display:inline-block;
+    text-decoration:none;
 }
 
 .adminTable {

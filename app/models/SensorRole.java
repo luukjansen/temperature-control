@@ -20,6 +20,7 @@ public class SensorRole extends Model {
         HUMIDITY,
         LIGHT,
         PORT,
+        BUTTON,
         UNKNOWN
     }
 

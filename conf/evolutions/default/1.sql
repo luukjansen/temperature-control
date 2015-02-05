@@ -36,6 +36,7 @@ create table device (
 create table log_item (
   id                        bigint not null,
   message                   varchar(255),
+  code                      integer,
   time                      timestamp,
   last_update               timestamp,
   accepted                  boolean,

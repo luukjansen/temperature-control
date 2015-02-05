@@ -112,30 +112,28 @@ public class Action extends Model {
     public static List<ObjectNode> checkForSensorActions(Sensor sensor) {
         List<ObjectNode> result = new ArrayList<>();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MILLISECOND, -500);
-        Date touchDelay = calendar.getTime();
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.add(Calendar.MILLISECOND, -500);
+        //Date touchDelay = calendar.getTime();
 
         for (Action action : sensor.actions) {
-            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.DISPLAY))) {
-                if(action.lastAction.before(touchDelay)) {
+            if (action.sensor.value > 0) {
+                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.DISPLAY))) {
                     ObjectNode actionObject = Json.newObject();
                     actionObject.put("action", "switchDisplay");
                     result.add(actionObject);
                 }
-            }
 
-            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.SLEEP))) {
-                if(action.lastAction.before(touchDelay)) {
-                    if(sleepMode){
+                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.SLEEP))) {
+                    if (sleepMode) {
                         sleepMode = false;
                         ObjectNode actionObject = Json.newObject();
                         actionObject.put("action", "turnOnDisplay");
                         result.add(actionObject);
                     } else {
                         // Turn everything related to temperature off
-                        for(Action anAction : action.sensor.actions) {
-                            if(anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                        for (Action anAction : action.sensor.actions) {
+                            if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                                 ObjectNode actionObject = Json.newObject();
                                 actionObject.put("pin", anAction.pin);
                                 actionObject.put("action", "setLow");
@@ -144,11 +142,10 @@ public class Action extends Model {
                         }
                     }
                 }
-            }
 
-            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_UP))) {
-                if (action.lastAction.before(touchDelay)) {
-                    for(Action anAction : action.sensor.actions) {
+                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_UP))) {
+
+                    for (Action anAction : Action.find.where().in("roles.name", "CV").findList()) {
                         if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                             anAction.tempHigh += 1;
                             anAction.tempLow += 1;
@@ -156,22 +153,23 @@ public class Action extends Model {
                         }
                     }
                 }
-            }
 
-            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_DOWN))) {
-                if (action.lastAction.before(touchDelay)) {
-                    for(Action anAction : action.sensor.actions) {
+                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_DOWN))) {
+                    for (Action anAction : Action.find.where().in("roles.name", "CV").findList()) {
                         if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                             anAction.tempHigh -= 1;
                             anAction.tempLow -= 1;
                             anAction.save();
                         }
                     }
+
                 }
+                //action.lastAction = new Date();
+                //action.save();
             }
         }
 
-         return result;
+        return result;
      }
 
 }

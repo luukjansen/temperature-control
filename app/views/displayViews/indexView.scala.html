@@ -1,65 +1,112 @@
-@(primary: Sensor, secondary: List[Sensor], errors: List[LogItem])
-<script>
-function updateData ( ) {
-$.get ('@routes.Display.displayData()', function ( data ) {
-    //getMediaFileStatus();
-    if(data.primaryTemp != null) document.getElementById ('primaryTemp').innerHTML = data.primaryTemp.toFixed(1) + '˚';
-    if(data.secondTemp1 != null)document.getElementById('secondTemp1').innerHTML = data.secondTemp1.toFixed(1) + '˚';
-    if(data.secondTemp2 != null) document.getElementById('secondTemp2').innerHTML = data.secondTemp2.toFixed(1) + '˚';
-    if(data.secondTemp3 != null) document.getElementById('secondTemp3').innerHTML = data.secondTemp3.toFixed(1) + '˚';
+@(primary: Sensor, secondary: List[Sensor], errorItem: LogItem)
+<!DOCTYPE html>
 
-    if(data.lastUpdate != null) document.getElementById('lastUpdate' ).innerHTML = data.lastUpdate;
+<html>
+    <head>
+        <title>Display</title>
+            <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
-    setTimeout ( function ( ) {
-        updateData ( ) ;
-    }, 25000 ) ;
-} )
-}
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.11.2.min.js")" type="text/javascript"></script>
 
-setTimeout ( function ( ) {
-    updateData ( ) ;
-}, 5000 ) ;
+            <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
+        <script>
 
+        function updateData ( ) {
+            try{
+                $.get('@routes.Display.displayData()', function ( data ) {
+                    //getMediaFileStatus();
+                    if(data.primaryTemp != null) document.getElementById ('primaryTemp').innerHTML = data.primaryTemp.toFixed(1) + '˚';
+                    if(data.secondTemp1 != null)document.getElementById('secondTemp1').innerHTML = data.secondTemp1.toFixed(1) + '˚';
+                    if(data.secondTemp2 != null) document.getElementById('secondTemp2').innerHTML = data.secondTemp2.toFixed(1) + '˚';
+                    if(data.secondTemp3 != null) document.getElementById('secondTemp3').innerHTML = data.secondTemp3.toFixed(1) + '˚';
 
-</script>
+                    if(data.lastUpdate != null) document.getElementById('lastUpdate' ).innerHTML = data.lastUpdate;
 
-@main("Sensors") {
-  <table class="tempTable">
+                    document.getElementById('errorDiv').innerHTML = data.status;
+                    if(data.status == "OK") {
+                        $('#errorDiv').fadeOut();
+                    } else {
+                        $('#errorDiv').fadeIn();
+                    }
+                } ).fail(function(jqXHR, textStatus, errorThrown) {
+        $('#errorDiv').fadeIn();
+        if (textStatus == 'timeout')
+            document.getElementById('errorDiv' ).innerHTML = 'The server is not responding';
 
-    <tr>
-        <td colspan="3">
-            <div style="position: relative; height: 100%">
-                <div id="primaryTemp" class="tempDiv">@if(primary != null){@("%.1f".format(primary.value))˚}</div>
-                <div class="tempLabel">@if(primary != null){@primary.name}</div>
-            </div>
-        </td>
-    </tr>
+                  if (textStatus == 'error')
+                    document.getElementById('errorDiv' ).innerHTML =  errorThrown;
 
-    <tr class="tempSecondaryRow">
+                  // Etc
+                })
+            } catch ( e ) {
+                $('#errorDiv').fadeIn();
+                document.getElementById('errorDiv' ).innerHTML = e.message;
+            }
+        }
 
-        <td>
-            <div style="position: relative; height: 100%">
-                <div id="secondTemp1" class="tempDivSmall">@if(secondary.size() > 0) {@("%.1f".format(secondary.get(0).value))˚}</div>
-                <div class="tempLabelSmall">@if(secondary.size() > 0){@secondary.get(0).name}</div>
-            </div>
-        </td>
-        <td>
-            <div style="position: relative; height: 100%">
-                <div id="secondTemp2" class="tempDivSmall">@if(secondary.size() > 1) {@("%.1f".format(secondary.get(1).value))˚}</div>
-                <div class="tempLabelSmall">@if(secondary.size() > 1){@secondary.get(1).name}</div>
-            </div>
-        </td>
-        <td>
-            <div style="position: relative; height: 100%">
-                <div id="secondTemp3" class="tempDivSmall">@if(secondary.size() > 2) {@("%.1f".format(secondary.get(2).value))˚}</div>
-                <div class="tempLabelSmall">@if(secondary.size() > 2){@secondary.get(2).name}</div>
-            </div>
-        </td>
+        $( document ).ready(function() {
+            setTimeout ( function ( ) {
+            updateData ( ) ;
+            }, 2000 ) ;
 
-    </tr>
+            setInterval ( function ( ) {
+                updateData ( ) ;
+            }, 25000 ) ;
+        });
 
-    <tr class="tempFooterRow"><td><div><a href="@routes.Application.index()">Main menu</a> - <span id="lastUpdate">@if(primary != null){@primary.lastUpdate.format("dd MMM yy - HH:mm")}</span></div></td></tr>
-  </table>
+        </script>
 
-}
+    </head>
+    <body>
+        <div class="display">
+            <table class="tempTable">
+
+                <tr>
+                    <td colspan="3">
+                        <div style="position : relative ; height : 100 %">
+                            <div id="primaryTemp" class="tempDiv">--</div>
+                            <div class="tempLabel">@if(primary != null) {@primary.name}</div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="tempSecondaryRow">
+
+                    <td>
+                        <div style="position : relative ; height : 100 %">
+                            <div id="secondTemp1" class="tempDivSmall">@if(secondary.size() > 0) {--}</div>
+                            <div class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).name}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position : relative ; height : 100 %">
+                            <div id="secondTemp2" class="tempDivSmall">@if(secondary.size() > 1) {--}</div>
+                            <div class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).name}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="position : relative ; height : 100 %">
+                            <div id="secondTemp3" class="tempDivSmall">@if(secondary.size() > 2) {--}</div>
+                            <div class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).name}</div>
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr class="tempFooterRow"><td><div><a href="@routes.Application.index()">Main menu</a>
+                    - <span id="lastUpdate">@if(primary != null) {@primary.lastUpdate.format("dd MMM yy - HH:mm")}</span></div>
+                </td>
+                </tr>
+            </table>
+
+            <div id="errorDiv" class="errorDialog">@if(errorItem != null) {@errorItem} else {Loading...}</div>
+
+        </div>
+
+    </body>
+</html>
