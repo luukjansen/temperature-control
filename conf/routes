@@ -31,6 +31,7 @@ GET         /display/                   controllers.Display.index()
 GET         /display/displayData        controllers.Display.displayData()
 
 GET         /api/sensorData             controllers.Api.sensorData(data)
+GET         /api/switchSleepMode        controllers.Api.switchSleepMode()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file               controllers.Assets.at(path="/public", file)

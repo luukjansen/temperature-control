@@ -19,10 +19,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by Luuk on 25/01/15.
@@ -96,6 +93,14 @@ public class Api extends Controller {
             }
 
             result.put("actions", actions);
+
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, -2);
+            if(device.lastUpdate.after(cal.getTime())){
+                result.put("debug", device.debugMode?1:0);
+                result.put("statusLed", device.statusLed?1:0);
+            }
+
             result.put("status", "SUCCESS");
 
             return ok(result);
@@ -121,6 +126,15 @@ public class Api extends Controller {
         byte[] plainText = (cipher.doFinal(encrypedBytes));
 
         return new String(plainText);
+    }
+
+    public static Result switchSleepMode(){
+        if(Action.sleepMode){
+            Action.sleepMode = false;
+        } else {
+            Action.sleepMode = true;
+        }
+        return redirect(routes.Application.index());
     }
 
 }

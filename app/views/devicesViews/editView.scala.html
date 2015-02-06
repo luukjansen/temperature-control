@@ -34,7 +34,18 @@
                 '_label -> "Unique ID"
             )
 
+            @helper.checkbox(
+                myForm("statusLed"),
+                '_label -> "Status light"
+            )
+
+            @helper.checkbox(
+                myForm("debugMode"),
+                '_label -> "Debug mode"
+            )
+
             <div>Sensors:</div>
+            <div>
             <table class="adminTable">
             @for(sensor <- device.sensors) {
               <tr>
@@ -43,9 +54,12 @@
               </tr>
             }
             </table>
-
-            <input type="hidden" name="id" value="@myForm("id").value">
-            <input type="submit" value="Submit">
+            </div>
+            @if(myForm("id").value != "" && myForm("id").value != null) { <div>Last updated: @device.lastUpdate.format("dd MMM yy - HH:mm:ss")</div> }
+            <div>
+                <input type="hidden" name="id" value="@myForm("id").value">
+                <input type="submit" value="Submit">
+            </div>
         }
 
         <a href="@routes.Devices.index()">Cancel</a>

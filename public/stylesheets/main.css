@@ -12,15 +12,15 @@
 }
 
 h1 {
-	font-size: 2em;
+	font-size: 1.8em;
 }
 
 h2 {
-	font-size: 2.8em;
+	font-size: 1.4em;
 }
 
 h3 {
-	font-size: 1.6em;
+	font-size: 1.2em;
     text-decoration:underline
 }
 
@@ -82,7 +82,7 @@ h3 {
 .errorDialog {
     position:fixed;
     top: 60px;
-    left: 30px;
+    left: 40px;
     width:240px;
     height:120px;
     /*margin-top: -160px; /*set to a negative number 1/2 of your height*/

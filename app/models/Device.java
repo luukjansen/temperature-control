@@ -40,6 +40,10 @@ public class Device extends Model {
     @Version
     public Timestamp lastUpdate;
 
+    public boolean debugMode;
+
+    public boolean statusLed;
+
     public static Finder<Long, Device> find = new Finder<Long, Device>(
             Long.class, Device.class
     );

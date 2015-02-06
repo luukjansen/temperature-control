@@ -69,8 +69,8 @@ public class Action extends Model {
         List<ObjectNode> result = new ArrayList<>();
 
         for (Action action : device.actions) {
-                // For temperature controllers
-            if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+            // For temperature controllers. Fix ignores the procedure, and leave the sensor as is.
+            if (!action.fix && action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                 ObjectNode actionObject = Json.newObject();
                 if (action.actionUp) {
                     if (sleepMode) {

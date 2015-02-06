@@ -29,6 +29,8 @@ create table device (
   ip_address                varchar(255),
   unique_id                 varchar(255),
   latest_error_id           bigint,
+  debug_mode                boolean,
+  status_led                boolean,
   last_update               timestamp not null,
   constraint pk_device primary key (id))
 ;

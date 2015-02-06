@@ -35,8 +35,9 @@
             )
 
             <div>Device: @sensor.device.name</div>
-            <div>
+
             @if(sensor != null) {
+                <div>
                 <table class="adminTable">
                 @for(action <- sensor.actions) {
                     <tr>
@@ -46,12 +47,13 @@
                     </tr>
                 }
                 </table>
+                </div>
                 <div><a href="@routes.Actions.add(sensor.id)">Add action</a></div>
-
+                <hr/>
                 <div>Last recorded temperature: @sensor.value</div>
-                <div>Last updated: @sensor.lastUpdate</div>
+                <div>Last updated: @sensor.lastUpdate.format("dd MMM yy - HH:mm:ss")</div>
             }
-            </div>
+
             <div>
             <input type="hidden" name="value" value="@myForm("value").value">
             <input type="hidden" name="device.id" value="@myForm("device.id").value">

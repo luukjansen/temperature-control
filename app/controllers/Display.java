@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Action;
 import models.LogItem;
 import models.Sensor;
 import models.SensorRole;
@@ -71,6 +72,8 @@ public class Display extends Controller {
         LogItem errorItem = LogItem.findLastActiveError();
         if (errorItem == null) {
             result.put("status", "OK");
+        } else if(Action.sleepMode) {
+            result.put("status", "In sleep mode...");
         } else {
             result.put("status", errorItem.message);
         }
