@@ -19,14 +19,22 @@
         function updateData ( ) {
                 $.get('@routes.Display.displayData()', function ( data ) {
                     try {
-                        //getMediaFileStatus();
-                        if(data.primaryTemp != null) document.getElementById ('primaryTemp').innerHTML = data.primaryTemp.toFixed(1) + '˚';
+                        if(data.primaryTemp != null) {
+                            if ( $.isNumeric ( data.primaryTemp ) ) {
+                                document.getElementById ( 'primaryTemp' ).innerHTML = data.primaryTemp.toFixed ( 1 ) + '˚' ;
+                            } else {
+                                document.getElementById ( 'primaryTemp' ).innerHTML = data.primaryTemp ;
+                            }
+                            document.getElementById ( 'primaryTempName' ).innerHTML = data.primaryTempName;
+                        }
+
                         if(data.secondTemp1 != null) {
                             if($.isNumeric(data.secondTemp1)) {
                                 document.getElementById ( 'secondTemp1' ).innerHTML = data.secondTemp1.toFixed ( 1 ) + '˚' ;
                             } else {
                                 document.getElementById ( 'secondTemp1' ).innerHTML = data.secondTemp1;
                             }
+                            document.getElementById ( 'secondTemp1Name' ).innerHTML = data.secondTemp1Name;
                         }
                         if(data.secondTemp2 != null) {
                             if ( $.isNumeric ( data.secondTemp2 ) ) {
@@ -34,6 +42,7 @@
                             } else {
                             document.getElementById ( 'secondTemp2' ).innerHTML = data.secondTemp2 ;
                             }
+                            document.getElementById ( 'secondTemp2Name' ).innerHTML = data.secondTemp2Name;
                         }
                         if(data.secondTemp3 != null) {
                             if($.isNumeric(data.secondTemp3)) {
@@ -41,22 +50,24 @@
                             } else {
                                 document.getElementById ( 'secondTemp3' ).innerHTML = data.secondTemp3;
                             }
+                            document.getElementById ( 'secondTemp3Name' ).innerHTML = data.secondTemp3Name;
                         }
 
                         if(data.lastUpdate != null) document.getElementById('lastUpdate' ).innerHTML = data.lastUpdate;
 
                         document.getElementById('errorDiv').innerHTML = data.status;
+
                         if(data.status == "OK") {
-                            $('#errorDiv').fadeOut();
+                            $('#errorDialog').fadeOut();
                         } else {
-                            $('#errorDiv').fadeIn();
+                            $('#errorDialog').fadeIn();
                         }
                     } catch ( e ) {
-                        $('#errorDiv').fadeIn();
+                        $('#errorDialog').fadeIn();
                         document.getElementById('errorDiv' ).innerHTML = e.message;
                     }
                 } ).fail(function(jqXHR, textStatus, errorThrown) {
-                    $ ( '#errorDiv' ).fadeIn ( ) ;
+                    $ ( '#errorDialog' ).fadeIn ( ) ;
                     if ( textStatus == 'timeout' ) {
                         document.getElementById ( 'errorDiv' ).innerHTML = 'The server is not responding' ;
                     } else {
@@ -86,7 +97,7 @@
                     <td colspan="3">
                         <div style="position : relative ; height : 100 %">
                             <div id="primaryTemp" class="tempDiv">--</div>
-                            <div class="tempLabel">@if(primary != null) {@primary.name}</div>
+                            <div id="primaryTempName" class="tempLabel">@if(primary != null) {@primary.name}</div>
                         </div>
                     </td>
                 </tr>
@@ -94,21 +105,21 @@
                 <tr class="tempSecondaryRow">
 
                     <td>
-                        <div style="position : relative ; height : 100 %">
+                        <div style="position : relative;" class="tempSecondaryRow">
                             <div id="secondTemp1" class="tempDivSmall">@if(secondary.size() > 0) {--}</div>
-                            <div class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).name}</div>
+                            <div id="secondTemp1Name" class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).name}</div>
                         </div>
                     </td>
                     <td>
                         <div style="position : relative ; height : 100 %">
                             <div id="secondTemp2" class="tempDivSmall">@if(secondary.size() > 1) {--}</div>
-                            <div class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).name}</div>
+                            <div id="secondTemp2Name" class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).name}</div>
                         </div>
                     </td>
                     <td>
                         <div style="position : relative ; height : 100 %">
                             <div id="secondTemp3" class="tempDivSmall">@if(secondary.size() > 2) {--}</div>
-                            <div class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).name}</div>
+                            <div id="secondTemp3Name" class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).name}</div>
                         </div>
                     </td>
 
@@ -120,8 +131,7 @@
                 </tr>
             </table>
 
-            <div id="errorDiv" class="errorDialog">@if(errorItem != null) {@errorItem} else {Loading...}</div>
-
+            <div id="errorDialog" class="errorDialog" style="display: table; overflow: hidden;"><div id="errorDiv" style="display: table-cell; vertical-align: middle;">@if(errorItem != null) {@errorItem} else {Loading...}</div></div>
         </div>
 
     </body>

@@ -80,7 +80,7 @@ h3 {
 }
 
 .errorDialog {
-    position:fixed;
+    position:absolute;
     top: 60px;
     left: 40px;
     width:240px;

@@ -131,6 +131,11 @@ public class Action extends Model {
                         actionObject.put("action", "turnOnDisplay");
                         result.add(actionObject);
                     } else {
+                        sleepMode = true;
+                        ObjectNode actionDisplayObject = Json.newObject();
+                        actionDisplayObject.put("action", "turnOffDisplay");
+                        result.add(actionDisplayObject);
+
                         // Turn everything related to temperature off
                         for (Action anAction : action.sensor.actions) {
                             if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
