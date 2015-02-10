@@ -95,7 +95,7 @@ public class Display extends Controller {
         }
 
         if(upLimit > 0 && lowerLimit > 0) {
-            returnString += " (" + String.format("%.1f", upLimit) +"˚/" + String.format("%.1f", lowerLimit) +"˚)";
+            returnString += " (" + String.format("%.1f", lowerLimit) +"˚/" + String.format("%.1f", upLimit) +"˚)";
         }
         return returnString;
     }
