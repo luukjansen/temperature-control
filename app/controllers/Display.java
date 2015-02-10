@@ -54,7 +54,7 @@ public class Display extends Controller {
             result.put("secondTemp1Name", nameString(secondarySensors.get(0)));
         }
         if (secondarySensors.size() > 1) {
-            if (secondarySensors.get(0).lastUpdate.after(cutOff)) {
+            if (secondarySensors.get(1).lastUpdate.after(cutOff)) {
                 result.put("secondTemp2", secondarySensors.get(1).value);
             } else {
                 result.put("secondTemp2", "--");
@@ -62,7 +62,7 @@ public class Display extends Controller {
             result.put("secondTemp2Name", nameString(secondarySensors.get(1)));
         }
         if (secondarySensors.size() > 2) {
-            if (secondarySensors.get(0).lastUpdate.after(cutOff)) {
+            if (secondarySensors.get(2).lastUpdate.after(cutOff)) {
                 result.put("secondTemp3", secondarySensors.get(2).value);
             } else {
                 result.put("secondTemp3", "--");
