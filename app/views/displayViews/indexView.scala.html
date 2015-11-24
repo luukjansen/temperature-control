@@ -133,6 +133,7 @@
                         <div style="position : relative ; height : 100 %">
                             <div id="primaryTemp" class="tempDiv" onclick="showSetTemperature('#setTempDialogPrimary')">--</div>
                             <div id="primaryTempName" class="tempLabel">@if(primary != null) {@primary.name}</div>
+                            @if(primary != null){
                             <div id="setTempDialogPrimary" class="setTempDialog" style="display: none;">
                                 @for(action <- primary.actions) {
                                     @if(action.tempLow > 0 && action.tempHigh > 0) {
@@ -144,6 +145,7 @@
                                 }
                                 <div align="center" style="position: absolute; bottom: 5px; right: 15px" onclick="hideSetTemperature('#setTempDialogPrimary')">Close</div>
                             </div>
+                            }
                         </div>
                     </td>
                 </tr>
@@ -152,20 +154,59 @@
 
                     <td width="33%">
                         <div style="position : relative;" class="tempSecondaryRow">
-                            <div id="secondTemp2" class="tempDivSmall">@if(secondary.size() > 1) {--}</div>
+                            <div id="secondTemp2" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond2')">@if(secondary.size() > 1) {--}</div>
                             <div id="secondTemp2Name" class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).name}</div>
+                            @if(secondary.size() > 1) {
+                            <div id="setTempDialogSecond2" class="setTempDialog" style="display: none;">
+                                @for(action <- secondary.get(1).actions) {
+                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
+                                        <div>@action.name:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                        <hr/>
+                                    }
+                                }
+                                <div align="center" style="position: absolute; bottom: 5px; right: 15px" onclick="hideSetTemperature('#setTempDialogSecond2')">Close</div>
+                            </div>
+                            }
                         </div>
                     </td>
                     <td width="33%">
                         <div style="position : relative ; height : 100 %">
-                            <div id="secondTemp1" class="tempDivSmall">@if(secondary.size() > 0) {--}</div>
+                            <div id="secondTemp1" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond1')">@if(secondary.size() > 0) {--}</div>
                             <div id="secondTemp1Name" class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).name}</div>
+                            @if(secondary.size() > 0) {
+                            <div id="setTempDialogSecond1" class="setTempDialog" style="display: none;">
+                                @for(action <- secondary.get(0).actions) {
+                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
+                                        <div>@action.name:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                        <hr/>
+                                    }
+                                }
+                                <div align="center" style="position: absolute; bottom: 5px; right: 15px" onclick="hideSetTemperature('#setTempDialogSecond1')">Close</div>
+                            </div>
+                            }
                         </div>
                     </td>
                     <td width="33%">
                         <div style="position : relative ; height : 100 %">
-                            <div id="secondTemp3" class="tempDivSmall">@if(secondary.size() > 2) {--}</div>
+                            <div id="secondTemp3" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond3')">@if(secondary.size() > 2) {--}</div>
                             <div id="secondTemp3Name" class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).name}</div>
+                            @if(secondary.size() > 2) {
+                            <div id="setTempDialogSecond3" class="setTempDialog" style="display: none;">
+                                @for(action <- secondary.get(2).actions) {
+                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
+                                        <div>@action.name:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                        <hr/>
+                                    }
+                                }
+                                <div align="center" style="position: absolute; bottom: 5px; right: 15px" onclick="hideSetTemperature('#setTempDialogSecond3')">Close</div>
+                            </div>
+                            }
                         </div>
                     </td>
 

@@ -164,8 +164,8 @@
           <value>
             <ProjectSettingsEntry>
               <option name="version" value="2.3.7" />
-              <option name="sourceDir" value="$PROJECT_DIR$/app" />
-              <option name="confDir" value="$PROJECT_DIR$/conf" />
+              <option name="sourceDir" value="$PROJECT_DIR$/conf" />
+              <option name="confDir" value="$PROJECT_DIR$/app" />
               <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.11/jars/play_2.11-2.4.4.jar" />
               <option name="templateImports">
                 <list>
