@@ -1,10 +1,15 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
+import play.Logger;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.util.parsing.json.JSONObject$;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,26 +40,32 @@ public class Display extends Controller {
         Date cutOff = calendar.getTime();
 
         Sensor primary = Sensor.getPrimarySensor();
-        if (primary.lastUpdate.after(cutOff)) {
-            result.put("primaryTemp", primary.value);
+        if (primary != null) {
+            if (primary.lastUpdate != null && primary.lastUpdate.after(cutOff)) {
+                result.put("primaryTemp", primary.value);
+            } else {
+                result.put("primaryTemp", "--");
+            }
+            result.put("primaryTempName", nameString(primary));
+            //if(primary.actions.size() > 0) result.put("primaryActions", addSensorData(primary));
         } else {
-            result.put("primaryTemp", "--");
+            result.put("primaryTempName", "(none)");
         }
-        result.put("primaryTempName", nameString(primary));
 
         String formattedDate = new SimpleDateFormat("dd MMM yy - HH:mm").format(new Date());
         result.put("lastUpdate", formattedDate);
 
         if (secondarySensors.size() > 0) {
-            if (secondarySensors.get(0).lastUpdate.after(cutOff)) {
+            if (secondarySensors.get(0).lastUpdate != null && secondarySensors.get(0).lastUpdate.after(cutOff)) {
                 result.put("secondTemp1", secondarySensors.get(0).value);
             } else {
                 result.put("secondTemp1", "--");
             }
             result.put("secondTemp1Name", nameString(secondarySensors.get(0)));
+
         }
         if (secondarySensors.size() > 1) {
-            if (secondarySensors.get(1).lastUpdate.after(cutOff)) {
+            if (secondarySensors.get(1).lastUpdate != null && secondarySensors.get(1).lastUpdate.after(cutOff)) {
                 result.put("secondTemp2", secondarySensors.get(1).value);
             } else {
                 result.put("secondTemp2", "--");
@@ -62,7 +73,7 @@ public class Display extends Controller {
             result.put("secondTemp2Name", nameString(secondarySensors.get(1)));
         }
         if (secondarySensors.size() > 2) {
-            if (secondarySensors.get(2).lastUpdate.after(cutOff)) {
+            if (secondarySensors.get(2).lastUpdate != null && secondarySensors.get(2).lastUpdate.after(cutOff)) {
                 result.put("secondTemp3", secondarySensors.get(2).value);
             } else {
                 result.put("secondTemp3", "--");
@@ -82,6 +93,88 @@ public class Display extends Controller {
         return ok(result);
     }
 
+    public static Result decreaseLowTemp(){
+        ObjectNode result = Json.newObject();
+
+        try {
+            long actionId = Long.valueOf(request().getQueryString("actionId"));
+            Action action = Action.find.byId(actionId);
+            action.tempLow = action.tempLow - 1;
+            action.save();
+            result.put("result", action.tempLow);
+        } catch (Exception e){
+            result.put("result", "error");
+            Logger.warn("Problem with changing the temp", e);
+        }
+        return ok(result);
+    }
+
+    //@Transactional
+    public static Result decreaseHighTemp(){
+        ObjectNode result = Json.newObject();
+
+        try {
+            long actionId = Long.valueOf(request().getQueryString("actionId"));
+            Action action = Action.find.byId(actionId);
+            action.tempHigh = action.tempHigh - 1;
+            action.save();
+            result.put("result", action.tempHigh);
+        } catch (Exception e){
+            result.put("result", "error");
+            Logger.warn("Problem with changing the temp", e);
+        }
+        return ok(result);
+    }
+
+    public static Result increaseLowTemp(){
+        ObjectNode result = Json.newObject();
+
+        try {
+            long actionId = Long.valueOf(request().getQueryString("actionId"));
+            Action action = Action.find.byId(actionId);
+            action.tempLow = action.tempLow + 1;
+            action.save();
+            result.put("result", action.tempLow);
+        } catch (Exception e){
+            result.put("result", "error");
+            Logger.warn("Problem with changing the temp", e);
+        }
+        return ok(result);
+    }
+
+    public static Result increaseHighTemp(){
+        ObjectNode result = Json.newObject();
+
+        try {
+            long actionId = Long.valueOf(request().getQueryString("actionId"));
+            Action action = Action.find.byId(actionId);
+            action.tempHigh = action.tempHigh + 1;
+            action.save();
+            result.put("result", action.tempHigh);
+        } catch (Exception e){
+            result.put("result", "error");
+            Logger.warn("Problem with changing the temp", e);
+        }
+        return ok(result);
+    }
+
+
+       /*
+    private static JsonNode addSensorData(Sensor sensor){
+        ArrayList<JsonNode> list = new ArrayList<>();
+
+        for(Action action : sensor.actions) {
+            if(!action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) continue;
+            ObjectNode actionNode = Json.newObject();
+            actionNode.put("name", action.name);
+            actionNode.put("tempHigh", action.tempHigh);
+            actionNode.put("tempLow", action.tempLow);
+            list.add(actionNode);
+        }
+
+        return Json.toJson(list);
+    }
+         */
     private static String nameString(Sensor sensor){
         float upLimit = 0;
         float lowerLimit = 0;

@@ -55,6 +55,9 @@ public class Api extends Controller {
                 device.uniqueId = uniqueId;
                 device.ipAddress = remoteAddress;
                 device.save();
+            } else {
+                device.ipAddress = remoteAddress;
+                device.save();
             }
 
             ArrayNode actions = mapper.createArrayNode();

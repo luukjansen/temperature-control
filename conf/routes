@@ -29,6 +29,10 @@ GET         /logItems/:id/delete        controllers.LogItems.delete(id: Long)
 
 GET         /display/                   controllers.Display.index()
 GET         /display/displayData        controllers.Display.displayData()
+GET         /display/decreaseLowTemp    controllers.Display.decreaseLowTemp()
+GET         /display/decreaseHeighTemp  controllers.Display.decreaseHighTemp()
+GET         /display/increaseLowTemp    controllers.Display.increaseLowTemp()
+GET         /display/increaseHeighTemp  controllers.Display.increaseHighTemp()
 
 GET         /api/sensorData             controllers.Api.sensorData(data)
 GET         /api/switchSleepMode        controllers.Api.switchSleepMode()

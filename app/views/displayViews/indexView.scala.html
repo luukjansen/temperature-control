@@ -16,8 +16,11 @@
 
         <script>
 
+        var lastData;
+
         function updateData ( ) {
                 $.get('@routes.Display.displayData()', function ( data ) {
+                    lastData = data;
                     try {
                         if(data.primaryTemp != null) {
                             if ( $.isNumeric ( data.primaryTemp ) ) {
@@ -76,6 +79,38 @@
                 })
         }
 
+        function showSetTemperature(tempId) {
+            $(tempId).show();
+        }
+
+        function hideSetTemperature(tempId) {
+            $(tempId).hide();
+        }
+
+        function decreaseLowTemp(actionId){
+            $.get('@routes.Display.decreaseLowTemp()', { actionId: actionId }, function ( data ) {
+                document.getElementById('lowTemp_' + actionId).innerHTML = data.result.toFixed ( 1 ) + '˚';
+            });
+        }
+
+        function decreaseHighTemp(actionId){
+            $.get('@routes.Display.decreaseHighTemp()', { actionId: actionId }, function ( data ) {
+                document.getElementById('highTemp_' + actionId).innerHTML = data.result.toFixed ( 1 ) + '˚';
+            });
+        }
+
+        function increaseLowTemp(actionId){
+            $.get('@routes.Display.increaseLowTemp()', { actionId: actionId }, function ( data ) {
+                document.getElementById('lowTemp_' + actionId).innerHTML = data.result.toFixed ( 1 ) + '˚';
+            });
+        }
+
+        function increaseHighTemp(actionId){
+            $.get('@routes.Display.increaseHighTemp()', { actionId: actionId }, function ( data ) {
+                document.getElementById("highTemp_" + actionId).innerHTML = data.result.toFixed ( 1 ) + '˚';
+            });
+        }
+
         $( document ).ready(function() {
             setTimeout ( function ( ) {
             updateData ( ) ;
@@ -96,8 +131,19 @@
                 <tr>
                     <td colspan="3">
                         <div style="position : relative ; height : 100 %">
-                            <div id="primaryTemp" class="tempDiv">--</div>
+                            <div id="primaryTemp" class="tempDiv" onclick="showSetTemperature('#setTempDialogPrimary')">--</div>
                             <div id="primaryTempName" class="tempLabel">@if(primary != null) {@primary.name}</div>
+                            <div id="setTempDialogPrimary" class="setTempDialog" style="display: none;">
+                                @for(action <- primary.actions) {
+                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
+                                        <div>@action.name:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                        <hr/>
+                                    }
+                                }
+                                <div align="center" style="position: absolute; bottom: 5px; right: 15px" onclick="hideSetTemperature('#setTempDialogPrimary')">Close</div>
+                            </div>
                         </div>
                     </td>
                 </tr>

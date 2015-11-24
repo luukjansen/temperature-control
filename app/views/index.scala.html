@@ -1,4 +1,4 @@
-@(inSleepMode: Boolean)
+@(inSleepMode: Boolean, ipAddress: String)
 
 @main("Welcome to the temperature control system") {
     <h1>Please select what you like to do:</h1>
@@ -8,5 +8,6 @@
     <div><a href="@routes.Sensors.index()">Sensors</a></div>
     <div><a href="@routes.Display.index()">Display</a></div>
     <div><a href="@routes.LogItems.index()">Errors/Log</a></div>
+    <div style="margin-top: 5px"><small>(IP address: @{ipAddress})</small></div>
 
 }

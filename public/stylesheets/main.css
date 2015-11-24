@@ -101,6 +101,30 @@ h3 {
     text-decoration:none;
 }
 
+.setTempDialog {
+    position:absolute;
+    top: 30px;
+    left: 40px;
+    width:245px;
+    height:185px;
+    /*margin-top: -160px; /*set to a negative number 1/2 of your height*/
+    /*margin-left: -80px; /*set to a negative number 1/2 of your width*/
+    border: 1px solid blue;
+    color: black;
+    background-color: #f3f3f3;
+    vertical-align: middle;
+   	text-align: center;
+
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    padding:10px 18px 10px 18px;
+    display:inline-block;
+    text-decoration:none;
+
+    overflow: hidden;
+}
+
 .adminTable {
 	width: 100%;
 	border-width: 1px;

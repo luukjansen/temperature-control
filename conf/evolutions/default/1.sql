@@ -32,6 +32,7 @@ create table device (
   debug_mode                boolean,
   status_led                boolean,
   last_update               timestamp not null,
+  constraint uq_device_latest_error_id unique (latest_error_id),
   constraint pk_device primary key (id))
 ;
 
@@ -44,6 +45,8 @@ create table log_item (
   accepted                  boolean,
   device_id                 bigint,
   sensor_id                 bigint,
+  constraint uq_log_item_device_id unique (device_id),
+  constraint uq_log_item_sensor_id unique (sensor_id),
   constraint pk_log_item primary key (id))
 ;
 
@@ -55,6 +58,7 @@ create table sensor (
   latest_error_id           bigint,
   device_id                 bigint,
   last_update               timestamp not null,
+  constraint uq_sensor_latest_error_id unique (latest_error_id),
   constraint pk_sensor primary key (id))
 ;
 

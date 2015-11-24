@@ -21,8 +21,8 @@ public class Devices extends Controller {
     }
 
     public static Result add() {
-        Form<Device> myForm = Form.form(Device.class);
-        return ok(editView.render(myForm, null));
+        Form<Device> deviceForm = Form.form(Device.class);
+        return ok(editView.render(deviceForm, null));
     }
 
     public static Result delete(Long id) {
@@ -33,11 +33,11 @@ public class Devices extends Controller {
 
     public static Result edit(Long id) {
         Device device = Device.find.byId(id);
-        Form<Device> myForm = Form.form(Device.class);
+        Form<Device> deviceForm = Form.form(Device.class);
 
-        myForm = myForm.fill(device);
+        deviceForm = deviceForm.fill(device);
 
-        return ok(editView.render(myForm, device));
+        return ok(editView.render(deviceForm, device));
     }
 
     public static Result update() {
@@ -53,7 +53,7 @@ public class Devices extends Controller {
         if (device.id == null) {
             device.save();
         } else {
-            device.update(device.id);
+            device.update();
         }
 
 

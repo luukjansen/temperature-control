@@ -1,8 +1,8 @@
-@(myForm: Form[Device], device: Device)
+@(deviceForm: Form[Device], device: Device)
 
-    @if(myForm.hasGlobalErrors) {
+    @if(deviceForm.hasGlobalErrors) {
         <ul>
-        @myForm.globalErrors.foreach { error =>
+        @deviceForm.globalErrors.foreach { error =>
             <li>error.message</li>
         }
         </ul>
@@ -11,7 +11,7 @@
 
     @main("Edit a device") {
 
-        @if(myForm("id").value == "" || myForm("id").value == null) {
+        @if(deviceForm("id").value == "" || deviceForm("id").value == null) {
             <h2>Add the device</h2>
         } else {
             <h2>Update the device</h2>
@@ -20,30 +20,31 @@
         @helper.form(action = routes.Devices.update()) {
 
             @helper.inputText(
-                myForm("name"),
+                deviceForm("name"),
                 '_label -> "Device name"
             )
 
             @helper.inputText(
-                myForm("ipAddress"),
+                deviceForm("ipAddress"),
                 '_label -> "IP Address"
             )
 
             @helper.inputText(
-                myForm("uniqueId"),
+                deviceForm("uniqueId"),
                 '_label -> "Unique ID"
             )
 
             @helper.checkbox(
-                myForm("statusLed"),
+                deviceForm("statusLed"),
                 '_label -> "Status light"
             )
 
             @helper.checkbox(
-                myForm("debugMode"),
+                deviceForm("debugMode"),
                 '_label -> "Debug mode"
             )
 
+            @if(device != null){
             <div>Sensors:</div>
             <div>
             <table class="adminTable">
@@ -55,9 +56,10 @@
             }
             </table>
             </div>
-            @if(myForm("id").value != "" && myForm("id").value != null) { <div>Last updated: @device.lastUpdate.format("dd MMM yy - HH:mm:ss")</div> }
+            }
+            @if(deviceForm("id").value != "" && deviceForm("id").value != null) { <div>Last updated: @device.lastUpdate.format("dd MMM yy - HH:mm:ss")</div> }
             <div>
-                <input type="hidden" name="id" value="@myForm("id").value">
+                <input type="hidden" name="id" value="@deviceForm("id").value">
                 <input type="submit" value="Submit">
             </div>
         }

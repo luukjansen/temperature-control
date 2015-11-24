@@ -72,7 +72,7 @@ public class Actions extends Controller {
         if (action.id == null) {
             action.save();
         } else {
-            action.update(action.id);
+            action.update();
         }
 
 //        return ok(editView.render(ActionForm));

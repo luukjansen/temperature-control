@@ -74,7 +74,7 @@ public class Sensors extends Controller {
         if (sensor.id == null) {
             sensor.save();
         } else {
-            sensor.update(sensor.id);
+            sensor.update();
         }
 
 
