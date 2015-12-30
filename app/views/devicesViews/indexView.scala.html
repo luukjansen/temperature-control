@@ -5,8 +5,8 @@
   <table class="adminTable">
   @for(device <- devices) {
     <tr>
-    <td><a href="@routes.Devices.edit(device.id)">@device.name<a/></td>
-    <td>@device.ipAddress</td>
+    <td><a href="@routes.Devices.edit(device.id)">@device.getName<a/></td>
+    <td>@device.getIpAddress</td>
     <td><a href="@routes.Devices.edit(device.id)">edit<a/> | <a href="@routes.Devices.delete(device.id)">delete</a></td>
     </tr>
   }

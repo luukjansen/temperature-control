@@ -7,12 +7,10 @@ import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Akka;
-import play.libs.Yaml;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class Global extends GlobalSettings {
@@ -22,7 +20,7 @@ public class Global extends GlobalSettings {
         if (SensorRole.find.findRowCount() != SensorRole.RoleName.values().length) {
             for (SensorRole.RoleName roleName : SensorRole.RoleName.values()) {
                 SensorRole newRole = new SensorRole();
-                newRole.name = roleName.toString();
+                newRole.setName(roleName.toString());
                 newRole.save();
             }
         }
@@ -30,7 +28,7 @@ public class Global extends GlobalSettings {
         if (ActionRole.find.findRowCount() != ActionRole.RoleName.values().length) {
             for (ActionRole.RoleName roleName : ActionRole.RoleName.values()) {
                 ActionRole newRole = new ActionRole();
-                newRole.name = roleName.toString();
+                newRole.setName(roleName.toString());
                 newRole.save();
             }
         }
@@ -62,29 +60,29 @@ public class Global extends GlobalSettings {
             if(Ebean.find(Device.class).findRowCount() == 0) {
 
                 Device device = new Device();
-                device.name = "Test";
-                device.ipAddress = "192.168.1.1";
-                device.uniqueId = "Test";
+                device.setName("Test");
+                device.setIpAddress("192.168.1.1");
+                device.setUniqueId("Test");
                 device.save();
 
                 Sensor sensor1 = new Sensor();
-                sensor1.device = device;
-                sensor1.name = "Sensor 1";
-                sensor1.lastUpdate = new Date();
-                sensor1.value = 20.0f;
+                sensor1.setDevice(device);
+                sensor1.setName("Sensor 1");
+                sensor1.setLastUpdate(new Date());
+                sensor1.setValue(20.0f);
 
                 List<SensorRole> roles = new ArrayList<>();
                 roles.add(SensorRole.find.ref(1l));
 
-                sensor1.roles = roles;
+                sensor1.setRoles(roles);
 
                 sensor1.save();
 
                 Action action1 = new Action();
-                action1.name = "Temp1";
-                action1.sensor = sensor1;
-                action1.tempLow = 18f;
-                action1.tempHigh = 20f;
+                action1.setName("Temp1");
+                action1.setSensor(sensor1);
+                action1.setTempLow(18f);
+                action1.setTempHigh(20f);
 
                 List<ActionRole> actionRoles = new ArrayList<>();
                 actionRoles.add(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE));

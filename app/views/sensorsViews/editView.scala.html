@@ -34,15 +34,15 @@
                 '_label -> "Roles of the sensor"
             )
 
-            <div>Device: @sensor.device.name</div>
+            <div>Device: @sensor.getDevice.getName</div>
 
             @if(sensor != null) {
                 <div>
                 <table class="adminTable">
-                @for(action <- sensor.actions) {
+                @for(action <- sensor.getActions) {
                     <tr>
-                        <td><a href="@routes.Actions.edit(sensor.id)">@action.name</a></td>
-                        <td>@action.fix</td>
+                        <td><a href="@routes.Actions.edit(action.id)">@action.getName</a></td>
+                        <td>@action.isFix</td>
                         <td><a href="@routes.Actions.edit(action.id)">edit</a> | <a href="@routes.Actions.delete(action.id)">delete</a></td>
                     </tr>
                 }
@@ -50,8 +50,8 @@
                 </div>
                 <div><a href="@routes.Actions.add(sensor.id)">Add action</a></div>
                 <hr/>
-                <div>Last recorded temperature: @sensor.value</div>
-                <div>Last updated: @sensor.lastUpdate.format("dd MMM yy - HH:mm:ss")</div>
+                <div>Last recorded temperature: @sensor.getValue</div>
+                <div>Last updated: @sensor.getLastUpdate.format("dd MMM yy - HH:mm:ss")</div>
             }
 
             <div>

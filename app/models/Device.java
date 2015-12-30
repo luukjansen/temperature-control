@@ -2,7 +2,7 @@ package models;
 
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 
 import javax.persistence.*;
@@ -20,29 +20,109 @@ public class Device extends Model {
     public Long id;
 
     @Constraints.Required
-    public String name;
+    private String name;
 
     @Constraints.Required
-    public String ipAddress;
+    private String ipAddress;
 
     @Constraints.Required
-    public String uniqueId;
+    private String uniqueId;
 
     @OneToMany(mappedBy="device")
-    public List<Sensor> sensors = new ArrayList<>();
+    private List<Sensor> sensors = new ArrayList<>();
 
     @OneToMany(mappedBy="device")
-    public List<Action> actions = new ArrayList<>();
+    private List<Action> actions = new ArrayList<>();
 
     @OneToOne
-    public LogItem latestError;
+    private LogItem latestError;
 
     @Version
-    public Timestamp lastUpdate;
+    private Timestamp lastUpdate;
 
-    public boolean debugMode;
+    private boolean debugMode;
 
-    public boolean statusLed;
+    private boolean statusLed;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public LogItem getLatestError() {
+        return latestError;
+    }
+
+    public void setLatestError(LogItem latestError) {
+        this.latestError = latestError;
+    }
+
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
+    public boolean isStatusLed() {
+        return statusLed;
+    }
+
+    public void setStatusLed(boolean statusLed) {
+        this.statusLed = statusLed;
+    }
 
     public static Finder<Long, Device> find = new Finder<Long, Device>(
             Long.class, Device.class
@@ -58,4 +138,7 @@ public class Device extends Model {
         */
         return null;
     }
+
+
+
 }

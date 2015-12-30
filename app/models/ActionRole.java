@@ -1,7 +1,7 @@
 package models;
 
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +15,22 @@ import java.util.Map;
  */
 @Entity
 public class ActionRole extends Model {
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
+    }
 
     public static enum RoleName {
         TEMPERATURE,
@@ -31,10 +47,10 @@ public class ActionRole extends Model {
     public Long id;
 
     @Constraints.Required
-    public String name;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
-    public List<Sensor> sensors;
+    private List<Sensor> sensors;
 
 
     public static Model.Finder<Long, ActionRole> find = new Model.Finder<Long, ActionRole>(
@@ -49,7 +65,7 @@ public class ActionRole extends Model {
         Map<String, String> options = new LinkedHashMap<>();
 
         for (ActionRole actionRole : find.all()) {
-            options.put(actionRole.id.toString(), actionRole.name);
+            options.put(actionRole.id.toString(), actionRole.getName());
         }
 
         return options;

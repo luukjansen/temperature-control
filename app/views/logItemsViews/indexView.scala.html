@@ -5,8 +5,8 @@
   <table>
   @for(logItem <- logItems) {
     <tr>
-    <td>@logItem.message</td>
-    <td>@logItem.lastUpdate</td>
+    <td>@logItem.getMessage</td>
+    <td>@logItem.getLastUpdate</td>
     <td><a href="@routes.LogItems.delete(logItem.id)">delete</a></td>
     </tr>
   }

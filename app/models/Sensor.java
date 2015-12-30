@@ -1,7 +1,7 @@
 package models;
 
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,31 +17,111 @@ public class Sensor extends Model {
     @Id
     public Long id;
 
-    public String name;
+    private String name;
 
     @Constraints.Required
-    public String sensorId;
+    private String sensorId;
 
     @Version
-    public Date lastUpdate;
+    private Date lastUpdate;
 
-    public float value;
+    private float value;
 
     @OneToOne
-    public LogItem latestError;
+    private LogItem latestError;
 
     @ManyToOne
     @Constraints.Required
-    public Device device;
+    private Device device;
 
     @OneToMany
-    public List<Action> actions = new ArrayList<>();
+    private List<Action> actions = new ArrayList<>();
 
     @ManyToMany
-    public List<SensorRole> roles = new ArrayList<>();
+    private List<SensorRole> roles = new ArrayList<>();
 
     @Transient
-    public List<Long> rolesIds = new ArrayList<>();
+    private List<Long> rolesIds = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    public LogItem getLatestError() {
+        return latestError;
+    }
+
+    public void setLatestError(LogItem latestError) {
+        this.latestError = latestError;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public List<SensorRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SensorRole> roles) {
+        this.roles = roles;
+    }
+
+    public List<Long> getRolesIds() {
+        return rolesIds;
+    }
+
+    public void setRolesIds(List<Long> rolesIds) {
+        this.rolesIds = rolesIds;
+    }
 
     public static Finder<Long, Sensor> find = new Finder<Long, Sensor>(
             Long.class, Sensor.class
@@ -54,4 +134,6 @@ public class Sensor extends Model {
     public static List<Sensor> getSecondarySensors(){
         return Sensor.find.where().in("roles.name", "SECONDARY").findList();
     }
+
+
 }

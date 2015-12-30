@@ -12,6 +12,7 @@ create table action (
   sensor_id                 bigint,
   device_id                 bigint,
   action_up                 boolean,
+  action_is_high            boolean,
   fix                       boolean,
   last_action               timestamp not null,
   constraint pk_action primary key (id))

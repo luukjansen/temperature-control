@@ -44,8 +44,8 @@ public class Sensors extends Controller {
         Form<Sensor> myForm = Form.form(Sensor.class);
 
         // Rewrite IDs of roles to transient field, to all mark checkboxes as checked
-        for (SensorRole role : sensor.roles) {
-            sensor.rolesIds.add(role.id);
+        for (SensorRole role : sensor.getRoles()) {
+            sensor.getRolesIds().add(role.id);
         }
 
         myForm = myForm.fill(sensor);
@@ -65,9 +65,9 @@ public class Sensors extends Controller {
         Sensor sensor = sensorForm.get();
 
         // Get checked checkboxes and add sensorRoles by ID
-        sensor.roles = new ArrayList<SensorRole>();
-        for (Long roleId : sensor.rolesIds) {
-            sensor.roles.add(SensorRole.find.ref(roleId));
+        sensor.setRoles(new ArrayList<SensorRole>());
+        for (Long roleId : sensor.getRolesIds()) {
+            sensor.getRoles().add(SensorRole.find.ref(roleId));
         }
 
         // Save or update?

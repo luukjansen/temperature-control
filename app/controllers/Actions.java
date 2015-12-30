@@ -11,7 +11,6 @@ import views.html.actionsViews.editView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Luuk on 01/02/15.
@@ -23,8 +22,9 @@ public class Actions extends Controller {
 
         Sensor sensor = Sensor.find.byId(sensorId);
         Action action = new Action();
-        action.actionUp = true;
-        action.sensor = sensor;
+        action.setActionUp(true);
+        action.setActionIsHigh(true);
+        action.setSensor(sensor);
         myForm.fill(action);
 
         return ok(editView.render(myForm, action, allDevices()));
@@ -32,7 +32,7 @@ public class Actions extends Controller {
 
     public static Result delete(Long id) {
         Action action = Action.find.byId(id);
-        Sensor sensor = action.sensor;
+        Sensor sensor = action.getSensor();
         action.delete();
         return redirect(routes.Sensors.edit(sensor.id));
     }
@@ -68,21 +68,34 @@ public class Actions extends Controller {
             action.roles.add(ActionRole.find.ref(roleId));
         }
 
+        // Get around bug
+        if(action.isActionUp()){
+            action.setActionUp(true);
+        } else {
+            action.setActionUp(false);
+        }
+
+        if(action.isActionIsHigh()){
+            action.setActionIsHigh(true);
+        } else {
+            action.setActionIsHigh(false);
+        }
+
         // Save or update?
-        if (action.id == null) {
+        if (action.getId() == null) {
             action.save();
         } else {
             action.update();
         }
 
 //        return ok(editView.render(ActionForm));
-        return redirect(routes.Sensors.edit(action.sensor.id));
+        return redirect(routes.Sensors.edit(action.getSensor().id));
     }
 
     private static HashMap<String, String> allDevices(){
         HashMap<String, String> devices = new HashMap<>();
                 for(Device device : Device.find.all()){
-                    devices.put(device.id.toString(), device.name);
+                    devices.put(device.id.toString(), device.getName());
                 }
         return devices;
     }

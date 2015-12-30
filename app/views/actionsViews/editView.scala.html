@@ -47,6 +47,11 @@
     '_label -> "Does the temperature rise (e.g. heater)"
 )
 
+            @helper.checkbox(
+                myForm("actionIsHigh"),
+                '_label -> "Does an action sent a high signal?"
+            )
+
 @helper.checkbox(
     myForm("fix"),
     '_label -> "Override, i.e. do not change"
@@ -58,14 +63,13 @@
                 '_label -> "Roles of the action"
             )
 
-            <div>Sensor '@action.sensor.name' of device '@action.sensor.device.name'</div>
+            <div>Sensor '@action.getSensor.getName' of device '@action.getSensor.getDevice.getName'</div>
 
-
-            <input type="hidden" name="sensor.id" value="@action.sensor.id">
+            <input type="hidden" name="sensor.id" value="@action.getSensor.id">
             <input type="hidden" name="id" value="@myForm("id").value">
             <input type="submit" value="Submit">
         }
 
-        <a href="@routes.Sensors.edit(action.sensor.id)">Cancel</a>
+        <a href="@routes.Sensors.edit(action.getSensor.id)">Cancel</a>
     }
 

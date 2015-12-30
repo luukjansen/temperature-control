@@ -18,7 +18,6 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -51,12 +50,12 @@ public class Api extends Controller {
             if(device == null){
                 // Create a device for this serial
                 device = new Device();
-                device.name = "Unknown";
-                device.uniqueId = uniqueId;
-                device.ipAddress = remoteAddress;
+                device.setName("Unknown");
+                device.setUniqueId(uniqueId);
+                device.setIpAddress(remoteAddress);
                 device.save();
             } else {
-                device.ipAddress = remoteAddress;
+                device.setIpAddress(remoteAddress);
                 device.save();
             }
 
@@ -70,16 +69,16 @@ public class Api extends Controller {
 
                     if(sensor == null){
                         sensor = new Sensor();
-                        sensor.device = device;
-                        sensor.name = "Unknown";
-                        sensor.sensorId = sensorId;
-                        sensor.roles.add(SensorRole.findByRoleName(SensorRole.RoleName.UNKNOWN));
+                        sensor.setDevice(device);
+                        sensor.setName("Unknown");
+                        sensor.setSensorId(sensorId);
+                        sensor.getRoles().add(SensorRole.findByRoleName(SensorRole.RoleName.UNKNOWN));
                         sensor.save();
                     } else {
-                        if (!Objects.equals(sensor.device.id, device.id)) throw new Exception("Problem, the sensor found belongs to another device...");
+                        if (!Objects.equals(sensor.getDevice().id, device.id)) throw new Exception("Problem, the sensor found belongs to another device...");
                     }
 
-                    sensor.value = (float) node.get("value").asDouble();
+                    sensor.setValue((float) node.get("value").asDouble());
                     sensor.save();
 
                     // Perform the actions
@@ -99,9 +98,9 @@ public class Api extends Controller {
 
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MINUTE, -2);
-            if(device.lastUpdate.after(cal.getTime())){
-                result.put("debug", device.debugMode?1:0);
-                result.put("statusLed", device.statusLed?1:0);
+            if(device.getLastUpdate().after(cal.getTime())){
+                result.put("debug", device.isDebugMode() ?1:0);
+                result.put("statusLed", device.isStatusLed() ?1:0);
             }
 
             result.put("status", "SUCCESS");
@@ -132,10 +131,10 @@ public class Api extends Controller {
     }
 
     public static Result switchSleepMode(){
-        if(Action.sleepMode){
-            Action.sleepMode = false;
+        if(Action.isSleepMode()){
+            Action.setSleepMode(false);
         } else {
-            Action.sleepMode = true;
+            Action.setSleepMode(true);
         }
         return redirect(routes.Application.index());
     }

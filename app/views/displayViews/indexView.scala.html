@@ -132,14 +132,14 @@
                     <td colspan="3">
                         <div style="position : relative ; height : 100 %">
                             <div id="primaryTemp" class="tempDiv" onclick="showSetTemperature('#setTempDialogPrimary')">--</div>
-                            <div id="primaryTempName" class="tempLabel">@if(primary != null) {@primary.name}</div>
+                            <div id="primaryTempName" class="tempLabel">@if(primary != null) {@primary.getName}</div>
                             @if(primary != null){
                             <div id="setTempDialogPrimary" class="setTempDialog" style="display: none;">
-                                @for(action <- primary.actions) {
-                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
-                                        <div>@action.name:<br/>
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                @for(action <- primary.getActions) {
+                                    @if(action.getTempLow > 0 && action.getTempHigh > 0) {
+                                        <div>@action.getName:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.getTempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.getTempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
                                         <hr/>
                                     }
                                 }
@@ -155,14 +155,14 @@
                     <td width="33%">
                         <div style="position : relative;" class="tempSecondaryRow">
                             <div id="secondTemp2" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond2')">@if(secondary.size() > 1) {--}</div>
-                            <div id="secondTemp2Name" class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).name}</div>
+                            <div id="secondTemp2Name" class="tempLabelSmall">@if(secondary.size() > 1) {@secondary.get(1).getName}</div>
                             @if(secondary.size() > 1) {
                             <div id="setTempDialogSecond2" class="setTempDialog" style="display: none;">
-                                @for(action <- secondary.get(1).actions) {
-                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
-                                        <div>@action.name:<br/>
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                @for(action <- secondary.get(1).getActions) {
+                                    @if(action.getTempLow > 0 && action.getTempHigh > 0) {
+                                        <div>@action.getName:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.getTempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.getTempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
                                         <hr/>
                                     }
                                 }
@@ -174,14 +174,14 @@
                     <td width="33%">
                         <div style="position : relative ; height : 100 %">
                             <div id="secondTemp1" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond1')">@if(secondary.size() > 0) {--}</div>
-                            <div id="secondTemp1Name" class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).name}</div>
+                            <div id="secondTemp1Name" class="tempLabelSmall">@if(secondary.size() > 0) {@secondary.get(0).getName}</div>
                             @if(secondary.size() > 0) {
                             <div id="setTempDialogSecond1" class="setTempDialog" style="display: none;">
-                                @for(action <- secondary.get(0).actions) {
-                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
-                                        <div>@action.name:<br/>
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                @for(action <- secondary.get(0).getActions) {
+                                    @if(action.getTempLow > 0 && action.getTempHigh > 0) {
+                                        <div>@action.getName:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.getTempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.getTempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
                                         <hr/>
                                     }
                                 }
@@ -193,14 +193,14 @@
                     <td width="33%">
                         <div style="position : relative ; height : 100 %">
                             <div id="secondTemp3" class="tempDivSmall" onclick="showSetTemperature('#setTempDialogSecond3')">@if(secondary.size() > 2) {--}</div>
-                            <div id="secondTemp3Name" class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).name}</div>
+                            <div id="secondTemp3Name" class="tempLabelSmall">@if(secondary.size() > 2) {@secondary.get(2).getName}</div>
                             @if(secondary.size() > 2) {
                             <div id="setTempDialogSecond3" class="setTempDialog" style="display: none;">
-                                @for(action <- secondary.get(2).actions) {
-                                    @if(action.tempLow > 0 && action.tempHigh > 0) {
-                                        <div>@action.name:<br/>
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.tempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
-                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.tempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
+                                @for(action <- secondary.get(2).getActions) {
+                                    @if(action.getTempLow > 0 && action.getTempHigh > 0) {
+                                        <div>@action.getName:<br/>
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseLowTemp(@action.id)"><span id="lowTemp_@action.id">@action.getTempLow˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseLowTemp(@action.id)"> |
+                                            <img height="32" src="/assets/images/down_arrow_2-512.png" style="padding:4px;" onclick="decreaseHighTemp(@action.id)"><span id="highTemp_@action.id">@action.getTempHigh˚</span><img height="32" style="padding:4px;" src="/assets/images/up_arrow_2-512.png" onclick="increaseHighTemp(@action.id)"></div>
                                         <hr/>
                                     }
                                 }
@@ -213,7 +213,7 @@
                 </tr>
 
                 <tr class="tempFooterRow"><td colspan="5"><div><a href="@routes.Application.index()">Main menu</a>
-                    - <span id="lastUpdate">@if(primary != null) {@primary.lastUpdate.format("dd MMM yy - HH:mm")}</span></div>
+                    - <span id="lastUpdate">@if(primary != null) {@primary.getLastUpdate.format("dd MMM yy - HH:mm")}</span></div>
                 </td>
                 </tr>
             </table>

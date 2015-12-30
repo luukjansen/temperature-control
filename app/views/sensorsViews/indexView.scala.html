@@ -5,9 +5,9 @@
   <table class="adminTable">
   @for(sensor <- sensors) {
     <tr>
-    <td><a href="@routes.Sensors.edit(sensor.id)">@sensor.name</a></td>
-    <td>@sensor.value˚</td>
-    <td>[@for(role <- sensor.roles) { @role.name }]</td>
+    <td><a href="@routes.Sensors.edit(sensor.id)">@sensor.getName</a></td>
+    <td>@sensor.getValue˚</td>
+    <td>[@for(role <- sensor.getRoles) { @role.getName }]</td>
     <td><a href="@routes.Sensors.edit(sensor.id)">edit</a> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
     </tr>
   }

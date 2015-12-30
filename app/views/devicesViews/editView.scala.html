@@ -48,16 +48,16 @@
             <div>Sensors:</div>
             <div>
             <table class="adminTable">
-            @for(sensor <- device.sensors) {
+            @for(sensor <- device.getSensors) {
               <tr>
-              <td>@sensor.value</td>
+              <td>@sensor.getValue</td>
               <td><a href="@routes.Sensors.edit(sensor.id)">edit<a/> | <a href="@routes.Sensors.delete(sensor.id)">delete</a></td>
               </tr>
             }
             </table>
             </div>
             }
-            @if(deviceForm("id").value != "" && deviceForm("id").value != null) { <div>Last updated: @device.lastUpdate.format("dd MMM yy - HH:mm:ss")</div> }
+            @if(deviceForm("id").value != "" && deviceForm("id").value != null) { <div>Last updated: @device.getLastUpdate.format("dd MMM yy - HH:mm:ss")</div> }
             <div>
                 <input type="hidden" name="id" value="@deviceForm("id").value">
                 <input type="submit" value="Submit">
