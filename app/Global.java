@@ -87,7 +87,7 @@ public class Global extends GlobalSettings {
                 List<ActionRole> actionRoles = new ArrayList<>();
                 actionRoles.add(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE));
 
-                action1.roles = actionRoles;
+                action1.setRoles(actionRoles);
                 action1.save();
 
 

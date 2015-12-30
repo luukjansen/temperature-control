@@ -176,7 +176,7 @@ public class Display extends Controller {
         String returnString = sensor.getName();
 
         for(Action action : sensor.getActions()){
-            if(action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+            if(action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                 upLimit = action.getTempHigh();
                 lowerLimit = action.getTempLow();
             }

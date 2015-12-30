@@ -48,10 +48,10 @@ public class Action extends Model {
     private boolean fix = false;
 
     @ManyToMany
-    public List<ActionRole> roles = new ArrayList<>();
+    private List<ActionRole> roles = new ArrayList<>();
 
     @Transient
-    public List<Long> rolesIds = new ArrayList<>();
+    private List<Long> rolesIds = new ArrayList<>();
 
     /**
      * For lack of a better place, sleepMode is controlled here. (Bascially, is inactive mode, everything off)
@@ -152,6 +152,22 @@ public class Action extends Model {
         this.fix = fix;
     }
 
+    public List<ActionRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<ActionRole> roles) {
+        this.roles = roles;
+    }
+
+    public List<Long> getRolesIds() {
+        return rolesIds;
+    }
+
+    public void setRolesIds(List<Long> rolesIds) {
+        this.rolesIds = rolesIds;
+    }
+
     public String getCommand(boolean action){
         if(isActionIsHigh()){
             if(action)return "setHigh";
@@ -177,7 +193,7 @@ public class Action extends Model {
 
         for (Action action : device.getActions()) {
             // For temperature controllers. Fix ignores the procedure, and leave the sensor as is.
-            if (!action.isFix() && action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+            if (!action.isFix() && action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                 ObjectNode actionObject = Json.newObject();
                 if (action.isActionUp()) {
                     if (isSleepMode()) {
@@ -214,13 +230,13 @@ public class Action extends Model {
 
         for (Action action : sensor.getActions()) {
             if (action.getSensor().getValue() > 0) {
-                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.DISPLAY))) {
+                if (action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.DISPLAY))) {
                     ObjectNode actionObject = Json.newObject();
                     actionObject.put("action", "switchDisplay");
                     result.add(actionObject);
                 }
 
-                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.SLEEP))) {
+                if (action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.SLEEP))) {
                     if (isSleepMode()) {
                         setSleepMode(false);
                         ObjectNode actionObject = Json.newObject();
@@ -234,7 +250,7 @@ public class Action extends Model {
 
                         // Turn everything related to temperature off
                         for (Action anAction : action.getSensor().getActions()) {
-                            if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                            if (anAction.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                                 ObjectNode actionObject = Json.newObject();
                                 actionObject.put("pin", anAction.getPin());
                                 actionObject.put("action", "setLow");
@@ -244,10 +260,10 @@ public class Action extends Model {
                     }
                 }
 
-                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_UP))) {
+                if (action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_UP))) {
 
                     for (Action anAction : Action.find.where().in("roles.name", "CV").findList()) {
-                        if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                        if (anAction.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                             anAction.setTempHigh(anAction.getTempHigh() + 1);
                             anAction.setTempLow(anAction.getTempLow() + 1);
                             anAction.save();
@@ -255,9 +271,9 @@ public class Action extends Model {
                     }
                 }
 
-                if (action.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_DOWN))) {
+                if (action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMP_DOWN))) {
                     for (Action anAction : Action.find.where().in("roles.name", "CV").findList()) {
-                        if (anAction.roles.contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
+                        if (anAction.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
                             anAction.setTempHigh(anAction.getTempHigh() - 1);
                             anAction.setTempLow(anAction.getTempLow() - 1);
                             anAction.save();

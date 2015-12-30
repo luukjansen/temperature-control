@@ -4,6 +4,7 @@ import models.Action;
 import models.ActionRole;
 import models.Device;
 import models.Sensor;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -42,8 +43,8 @@ public class Actions extends Controller {
         Form<Action> myForm = Form.form(Action.class);
 
         // Rewrite IDs of roles to transient field, to all mark checkboxes as checked
-        for (ActionRole role : action.roles) {
-            action.rolesIds.add(role.id);
+        for (ActionRole role : action.getRoles()) {
+            action.getRolesIds().add(role.id);
         }
 
         myForm = myForm.fill(action);
@@ -63,9 +64,10 @@ public class Actions extends Controller {
         Action action = actionForm.get();
 
         // Get checked checkboxes and add ActionRoles by ID
-        action.roles = new ArrayList<ActionRole>();
-        for (Long roleId : action.rolesIds) {
-            action.roles.add(ActionRole.find.ref(roleId));
+        action.setRoles(new ArrayList<ActionRole>());
+        for (Long roleId : action.getRolesIds()) {
+            Logger.info("Adding role id " + roleId);
+            action.getRoles().add(ActionRole.find.ref(roleId));
         }
 
         // Get around bug
@@ -80,6 +82,8 @@ public class Actions extends Controller {
         } else {
             action.setActionIsHigh(false);
         }
+
+        // END bug hack
 
         // Save or update?
         if (action.getId() == null) {
