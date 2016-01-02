@@ -91,7 +91,20 @@ public class Api extends Controller {
 
             // Now see if there are any actions for the device
             for (ObjectNode actionNode : Action.checkForDeviceActions(device)) {
-                actions.add(actionNode);
+                boolean alreadyPresent = false;
+                for(JsonNode node : actions) {
+                    // Check if this pin has already an action, and use an OR descission
+                    if(node.get("pin").asInt() == actionNode.get("pin").asInt()){
+                        alreadyPresent = true;
+                        if(!node.get("action").asText().equalsIgnoreCase("setHigh")){
+                            if(actionNode.get("action").asText().equalsIgnoreCase("setHigh")) {
+                                ((ObjectNode) node).put("action","setHigh");
+                            }
+                        }
+                    }
+                }
+
+                if(!alreadyPresent) actions.add(actionNode);
             }
 
             result.put("actions", actions);

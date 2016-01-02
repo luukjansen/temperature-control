@@ -214,8 +214,11 @@ public class Action extends Model {
                         actionObject.put("action", action.getCommand(true));
                     }
                 }
-                actionObject.put("pin", action.getPin());
-                result.add(actionObject);
+
+                if(actionObject.has("action")) {
+                    actionObject.put("pin", action.getPin());
+                    result.add(actionObject);
+                }
             }
         }
         return result;
