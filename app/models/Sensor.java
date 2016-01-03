@@ -34,10 +34,10 @@ public class Sensor extends Model {
     @Constraints.Required
     private Device device;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Action> actions = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<SensorRole> roles = new ArrayList<>();
 
     @Transient

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="6da3c168-2094-4dce-91fc-62c811c73888" name="Default" comment="Smoothing out double actions.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/Api.java" afterPath="$PROJECT_DIR$/app/controllers/Api.java" />
+    <list default="true" readonly="true" id="6da3c168-2094-4dce-91fc-62c811c73888" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/Display.java" afterPath="$PROJECT_DIR$/app/controllers/Display.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Action.java" afterPath="$PROJECT_DIR$/app/models/Action.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Device.java" afterPath="$PROJECT_DIR$/app/models/Device.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Sensor.java" afterPath="$PROJECT_DIR$/app/models/Sensor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/temperature-control.iws" afterPath="$PROJECT_DIR$/temperature-control.iws" />
     </list>
     <ignored path="temperature-control.iws" />
@@ -85,6 +87,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Device.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Device.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="UDPBroadcastServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/logic/UDPBroadcastServer.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -95,15 +109,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Action.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/Action.java">
+      <file leaf-file-name="LogItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/LogItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.254438">
-              <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="41" column="49" selection-start-line="41" selection-start-column="49" selection-end-line="41" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3504#3505#0" expanded="true" />
-                <element signature="e#3559#3560#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Action.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Action.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.896552">
+              <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,22 +143,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Display.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Display.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/Display.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="111" column="21" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.5885559">
+              <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="indexView.scala.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/displayViews/indexView.scala.html">
+      <file leaf-file-name="Sensor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Sensor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="134" column="107" selection-start-line="134" selection-start-column="107" selection-end-line="134" selection-end-column="107" />
-              <folding />
+              <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -173,7 +199,6 @@
         <option value="$PROJECT_DIR$/project/build.properties" />
         <option value="$PROJECT_DIR$/build.sbt" />
         <option value="$PROJECT_DIR$/project/plugins.sbt" />
-        <option value="$PROJECT_DIR$/app/controllers/Display.java" />
         <option value="$PROJECT_DIR$/app/controllers/Devices.java" />
         <option value="$PROJECT_DIR$/app/views/index.scala.html" />
         <option value="$PROJECT_DIR$/conf/production.conf" />
@@ -188,14 +213,15 @@
         <option value="$PROJECT_DIR$/app/views/displayViews/indexView.scala.html" />
         <option value="$PROJECT_DIR$/app/controllers/Sensors.java" />
         <option value="$PROJECT_DIR$/app/models/ActionRole.java" />
-        <option value="$PROJECT_DIR$/app/models/Device.java" />
         <option value="$PROJECT_DIR$/app/models/LogItem.java" />
-        <option value="$PROJECT_DIR$/app/models/Sensor.java" />
         <option value="$PROJECT_DIR$/app/models/SensorRole.java" />
         <option value="$PROJECT_DIR$/app/controllers/Application.java" />
         <option value="$PROJECT_DIR$/app/controllers/Actions.java" />
         <option value="$PROJECT_DIR$/app/controllers/Api.java" />
         <option value="$PROJECT_DIR$/app/models/Action.java" />
+        <option value="$PROJECT_DIR$/app/models/Sensor.java" />
+        <option value="$PROJECT_DIR$/app/models/Device.java" />
+        <option value="$PROJECT_DIR$/app/controllers/Display.java" />
       </list>
     </option>
   </component>
@@ -1165,7 +1191,7 @@
       <workItem from="1451469994417" duration="8633000" />
       <workItem from="1451490921331" duration="1205000" />
       <workItem from="1451564820888" duration="38000" />
-      <workItem from="1451565529449" duration="10183000" />
+      <workItem from="1451565529449" duration="15595000" />
     </task>
     <task id="LOCAL-00001" summary="- small changes">
       <created>1420706846554</created>
@@ -1281,11 +1307,17 @@
       <option name="project" value="LOCAL" />
       <updated>1451729390430</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fixing command univication">
+      <created>1451816138042</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1451816138042</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157755000" />
+    <option name="totallyTimeSpent" value="163167000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1370" height="735" extended-state="0" />
@@ -1297,10 +1329,10 @@
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290469" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34385383" sideWeight="0.52824426" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34385383" sideWeight="0.5312977" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34385383" sideWeight="0.4717557" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34385383" sideWeight="0.4687023" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.49427754" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3371522" sideWeight="0.47276855" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1313,7 +1345,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3820598" sideWeight="0.5618321" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3820598" sideWeight="0.55877864" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1392,11 +1424,20 @@
     <MESSAGE value="Bug fixes&#10;Added functions" />
     <MESSAGE value="Working around the save bug" />
     <MESSAGE value="Smoothing out double actions." />
-    <option name="LAST_COMMIT_MESSAGE" value="Smoothing out double actions." />
+    <MESSAGE value="Fixing command univication" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing command univication" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="58" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/controllers/Display.java</url>
+          <line>47</line>
+          <properties />
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="89" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1668,73 +1709,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Device.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/LogItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Sensor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-          <folding>
-            <element signature="e#810#811#0" expanded="false" />
-            <element signature="e#835#836#0" expanded="false" />
-            <element signature="e#869#870#0" expanded="false" />
-            <element signature="e#897#898#0" expanded="false" />
-            <element signature="e#928#929#0" expanded="false" />
-            <element signature="e#955#956#0" expanded="false" />
-            <element signature="e#995#996#0" expanded="false" />
-            <element signature="e#1027#1028#0" expanded="false" />
-            <element signature="e#1062#1063#0" expanded="false" />
-            <element signature="e#1093#1094#0" expanded="false" />
-            <element signature="e#1141#1142#0" expanded="false" />
-            <element signature="e#1181#1182#0" expanded="false" />
-            <element signature="e#1216#1217#0" expanded="false" />
-            <element signature="e#1249#1250#0" expanded="false" />
-            <element signature="e#1299#1300#0" expanded="false" />
-            <element signature="e#1343#1344#0" expanded="false" />
-            <element signature="e#1374#1375#0" expanded="false" />
-            <element signature="e#1402#1403#0" expanded="false" />
-            <element signature="e#1443#1444#0" expanded="false" />
-            <element signature="e#1477#1478#0" expanded="false" />
-            <element signature="e#1516#1517#0" expanded="false" />
-            <element signature="e#1550#1551#0" expanded="false" />
-            <element signature="e#1605#1606#0" expanded="false" />
-            <element signature="e#1651#1652#0" expanded="false" />
-            <element signature="e#1684#1685#0" expanded="false" />
-            <element signature="e#1713#1714#0" expanded="false" />
-            <element signature="e#1757#1758#0" expanded="false" />
-            <element signature="e#1793#1794#0" expanded="false" />
-            <element signature="e#1833#1834#0" expanded="false" />
-            <element signature="e#1863#1864#0" expanded="false" />
-            <element signature="e#1915#1916#0" expanded="false" />
-            <element signature="e#1953#1954#0" expanded="false" />
-            <element signature="e#1995#1996#0" expanded="false" />
-            <element signature="e#2023#2024#0" expanded="false" />
-            <element signature="e#2075#2076#0" expanded="false" />
-            <element signature="e#2109#2110#0" expanded="false" />
-            <element signature="e#2148#2149#0" expanded="false" />
-            <element signature="e#2179#2180#0" expanded="false" />
-            <element signature="e#2231#2232#0" expanded="false" />
-            <element signature="e#2271#2272#0" expanded="false" />
-            <element signature="e#2435#2436#0" expanded="false" />
-            <element signature="e#2518#2519#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/SensorRole.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1749,14 +1723,6 @@
             <element signature="e#564#565#0" expanded="false" />
             <element signature="e#602#603#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/Display.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="111" column="21" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1824,15 +1790,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Action.java">
+    <entry file="file://$PROJECT_DIR$/app/models/Sensor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.254438">
-          <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3504#3505#0" expanded="true" />
-            <element signature="e#3559#3560#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Device.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/LogItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="49" selection-start-line="41" selection-start-column="49" selection-end-line="41" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.896552">
+          <caret line="222" column="0" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/Display.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5885559">
+          <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -5,6 +5,7 @@ import models.*;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import java.text.SimpleDateFormat;
@@ -59,6 +60,7 @@ public class Display extends Controller {
             result.put("secondTemp1Name", nameString(secondarySensors.get(0)));
 
         }
+
         if (secondarySensors.size() > 1) {
             if (secondarySensors.get(1).getLastUpdate() != null && secondarySensors.get(1).getLastUpdate().after(cutOff)) {
                 result.put("secondTemp2", secondarySensors.get(1).getValue());
@@ -67,6 +69,7 @@ public class Display extends Controller {
             }
             result.put("secondTemp2Name", nameString(secondarySensors.get(1)));
         }
+
         if (secondarySensors.size() > 2) {
             if (secondarySensors.get(2).getLastUpdate() != null && secondarySensors.get(2).getLastUpdate().after(cutOff)) {
                 result.put("secondTemp3", secondarySensors.get(2).getValue());
@@ -77,14 +80,18 @@ public class Display extends Controller {
         }
 
         LogItem errorItem = LogItem.findLastActiveError();
-        if (errorItem == null) {
-            result.put("status", "OK");
-        } else if(Action.isSleepMode()) {
+        if (errorItem == null && Action.isSleepMode()) {
             result.put("status", "In sleep mode...");
+        } else if(errorItem == null) {
+            result.put("status", "OK");
         } else {
-            result.put("status", errorItem.getMessage());
+            if(errorItem.getMessage() != null && errorItem.getMessage().length() > 0) {
+                result.put("status", errorItem.getMessage());
+            } else {
+                result.put("status", "Unkown error");
+            }
         }
-
+        response().setHeader("Cache-Control", "no-cache");
         return ok(result);
     }
 

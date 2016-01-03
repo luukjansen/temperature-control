@@ -47,7 +47,7 @@ public class Action extends Model {
     // Locks the current value to manual (not automatic changes)
     private boolean fix = false;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<ActionRole> roles = new ArrayList<>();
 
     @Transient
@@ -179,6 +179,7 @@ public class Action extends Model {
     }
 
     public int hashCode() {
+        if(getId() == null) return 0;
         return Long.valueOf(getId()).hashCode();
     }
 
@@ -228,16 +229,18 @@ public class Action extends Model {
                 }
 
                 if(performAction != null){
-                    // Check if pin is already present, and update or add.
+                    // Check if pin is already present, and update the action if another is already set to 'true'.
+                    boolean pinPresent = false;
                     for(Map.Entry<Action, Boolean> pair : actionMap.entrySet()){
                         if(pair.getKey().getPin() == action.getPin()){
+                            pinPresent = true;
                             if(pair.getValue() && !performAction){
                                 performAction = true;
                             }
                         }
                     }
 
-                    if(actionMap.containsKey(action)){
+                    if(pinPresent){
                         actionMap.replace(action, performAction);
                     } else {
                         actionMap.put(action, performAction);
