@@ -178,6 +178,18 @@ public class Action extends Model {
         return "setLow";
     }
 
+    public int hashCode() {
+        return Long.valueOf(getId()).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Action)) {
+            return false;
+        }
+        return ((Action) o).getId().equals(getId());
+    }
+
     public static Finder<Long, Action> find = new Finder<Long, Action>(
             Long.class, Action.class
     );
@@ -189,37 +201,59 @@ public class Action extends Model {
      */
 
     public static List<ObjectNode> checkForDeviceActions(Device device) {
-        List<ObjectNode> result = new ArrayList<>();
-
+        // First compile a list with actions, then write them to the nodeList.
+        HashMap<Action, Boolean> actionMap = new HashMap<>();
         for (Action action : device.getActions()) {
             // For temperature controllers. Fix ignores the procedure, and leave the sensor as is.
             if (!action.isFix() && action.getRoles().contains(ActionRole.findByRoleName(ActionRole.RoleName.TEMPERATURE))) {
-                ObjectNode actionObject = Json.newObject();
+                Boolean performAction = null;
                 if (action.isActionUp()) {
                     if (isSleepMode()) {
                         // Turn off
-                        actionObject.put("action", action.getCommand(false));
+                        performAction = false;
                     } else if (action.getTempLow() > action.getSensor().getValue()) {
-                        actionObject.put("action", action.getCommand(true));
+                        performAction = true;
                     } else if (action.getTempHigh() < action.getSensor().getValue()) {
-                        actionObject.put("action", action.getCommand(false));
+                        performAction = false;
                     }
                 } else {
                     if (isSleepMode()) {
                         // Turn off
-                        actionObject.put("action", action.getCommand(false));
+                        performAction = false;
                     } else if (action.getTempLow() > action.getSensor().getValue()) {
-                        actionObject.put("action", action.getCommand(false));
+                        performAction = false;
                     } else if (action.getTempHigh() < action.getSensor().getValue()) {
-                        actionObject.put("action", action.getCommand(true));
+                        performAction = true;
                     }
                 }
 
-                if(actionObject.has("action")) {
-                    actionObject.put("pin", action.getPin());
-                    result.add(actionObject);
+                if(performAction != null){
+                    // Check if pin is already present, and update or add.
+                    for(Map.Entry<Action, Boolean> pair : actionMap.entrySet()){
+                        if(pair.getKey().getPin() == action.getPin()){
+                            if(pair.getValue() && !performAction){
+                                performAction = true;
+                            }
+                        }
+                    }
+
+                    if(actionMap.containsKey(action)){
+                        actionMap.replace(action, performAction);
+                    } else {
+                        actionMap.put(action, performAction);
+                    }
                 }
             }
+        }
+
+        List<ObjectNode> result = new ArrayList<>();
+        //Iterator it = actionMap.entrySet().iterator();
+        for(Map.Entry<Action, Boolean> pair : actionMap.entrySet()){
+            ObjectNode actionObject = Json.newObject();
+            actionObject.put("action", pair.getKey().getCommand(pair.getValue()));
+            actionObject.put("pin", pair.getKey().getPin());
+            result.add(actionObject);
+            //it.remove(); // avoids a ConcurrentModificationException
         }
         return result;
     }

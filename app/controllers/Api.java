@@ -90,24 +90,9 @@ public class Api extends Controller {
             }
 
             // Now see if there are any actions for the device
-            for (ObjectNode actionNode : Action.checkForDeviceActions(device)) {
-                boolean alreadyPresent = false;
-                for(JsonNode node : actions) {
-                    // Check if this pin has already an action, and use an OR descission
-                    if(node.get("pin").asInt() == actionNode.get("pin").asInt()){
-                        alreadyPresent = true;
-                        if(!node.get("action").asText().equalsIgnoreCase("setHigh")){
-                            if(actionNode.get("action").asText().equalsIgnoreCase("setHigh")) {
-                                ((ObjectNode) node).put("action","setHigh");
-                            }
-                        }
-                    }
-                }
+            Action.checkForDeviceActions(device).forEach(actions::add);
 
-                if(!alreadyPresent) actions.add(actionNode);
-            }
-
-            result.put("actions", actions);
+            result.set("actions", actions);
 
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MINUTE, -2);
@@ -120,7 +105,7 @@ public class Api extends Controller {
 
             return ok(result);
         } catch (Exception exception) {
-            Logger.warn("Problem processing stats: " + exception.getMessage());
+            Logger.warn("Problem processing actions: " + exception.getMessage(), exception);
             result.put("status", "ERROR");
             result.put("message", exception.getMessage());
             return badRequest(result);
